@@ -1,0 +1,21 @@
+/users
+    / -- Post
+        cria o usuario e retorna o jwt
+
+    /login
+        com as credenciais, e feito o login e retorna o jwt
+    
+    /recovery
+        com o jwt, e recuperado as informacoes do usuario e da empresa
+
+/companies
+    /create
+        cria a empresa
+    
+    /recovery
+        com a jwt, e recuperado as informacoes da empresa logada
+    
+    /login
+        com o nome da empresa, retorna o jwt com a empresa incorporado
+
+
