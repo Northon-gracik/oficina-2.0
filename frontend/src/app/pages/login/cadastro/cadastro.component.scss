@@ -1,0 +1,15 @@
+@import "../../../../styles.scss";
+
+.signup-bg {
+  background-color: $signup-background-color; // Pode ser um verde claro ou laranja suave
+}
+
+.custom-button {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+
+  &:hover {
+    background-color: darken($secondary-color, 10%);
+    border-color: darken($secondary-color, 10%);
+  }
+}

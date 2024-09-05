@@ -1,0 +1,16 @@
+@import "../../../../styles.scss";
+
+
+.login-bg {
+  background-color: $login-background-color; // Pode ser um azul claro ou cinza suave
+}
+
+.custom-button {
+  background-color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+    border-color: darken($primary-color, 10%);
+  }
+}

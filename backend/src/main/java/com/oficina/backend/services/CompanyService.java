@@ -40,11 +40,11 @@ public class CompanyService {
     JwtTokenService jwtTokenService;
 
     public ReturnCreateCompanyDto createCompany(CompanyDto createCompany) throws Exception {
-        if(companyRepository.findByNome(createCompany.nome()).isPresent()){
+        if (companyRepository.findByNome(createCompany.nome()).isPresent()) {
             throw new Exception("Já existe empresa com esse nome.");
         }
 
-        if(companyRepository.findByCnpj(createCompany.cnpj()).isPresent()){
+        if (companyRepository.findByCnpj(createCompany.cnpj()).isPresent()) {
             throw new Exception("Já existe empresa com esse cnpj.");
         }
 
@@ -89,9 +89,9 @@ public class CompanyService {
         throw new Exception("Não foi encontrado empresa no token");
     }
 
-    public RecoveryJwtTokenDto loginCompany(String companyName) throws Exception {
+    public RecoveryJwtTokenDto loginCompany(long companyId) throws Exception {
 
-        Optional<Company> companyOptional = companyRepository.findByNome(companyName);
+        Optional<Company> companyOptional = companyRepository.findById(companyId);
 
         if (companyOptional.isPresent()) {
             Company company = companyOptional.get();
@@ -99,10 +99,14 @@ public class CompanyService {
             company.setUserRoles(userRoleRepository.findByCompany(companyOptional.get()));
 
             return new RecoveryJwtTokenDto(
-                jwtTokenService.generateToken(userService.userRecoveryEntity().getEmail(), company.nome)
-                );
+                    jwtTokenService.generateToken(userService.userRecoveryEntity().getEmail(), company.nome));
         }
 
         throw new Exception("Não foi encontrado empresa pesquisada");
+    }
+
+    public RecoveryJwtTokenDto logoutCompany() throws Exception {
+        return new RecoveryJwtTokenDto(
+                jwtTokenService.generateToken(userService.userRecoveryEntity().getEmail()));
     }
 }

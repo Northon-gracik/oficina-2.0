@@ -1,0 +1,30 @@
+<div class="form-container d-flex justify-content-center align-items-cente login-bg py-5">
+  <div class="card shadow-lg p-5 col-4">
+    <div class="d-flex align-items-center justify-content-center mb-4">
+      <h2>Entrar</h2>
+    </div>
+    <div>
+      <app-custom-input
+        [control]="email"
+        label="Email"
+        inputId="email"
+        placeholder="Digite seu email"
+        type="email"
+      ></app-custom-input>
+
+      <app-custom-input
+        [control]="password"
+        label="Senha"
+        inputId="password"
+        placeholder="Digite sua senha"
+        type="password"
+      ></app-custom-input>
+
+      <button (click)="onSubmit($event)" [disabled]="!isValid()" class="btn btn-primary custom-button mb-3">Entrar</button>
+
+      <div  class="alert alert-secondary custom-alert mb-0">
+        Não tem conta? <a routerLink='./cadastro'>Crie uma agora</a>
+      </div>
+    </div>
+  </div>
+</div>

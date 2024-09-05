@@ -1,0 +1,56 @@
+<div class="form-container d-flex justify-content-center align-items-center vh-100 signup-bg">
+  <div class="card shadow-lg p-5 col-4">
+    <div class="d-flex align-items-center justify-content-center mb-4">
+      <h2>Cadastrar</h2>
+    </div>
+    <div >
+      <app-custom-input
+        [control]="name"
+        label="Nome"
+        inputId="name"
+        placeholder="Digite seu nome"
+        type="text"
+      ></app-custom-input>
+
+      <app-custom-input
+        [control]="email"
+        label="Email"
+        inputId="email"
+        placeholder="Digite seu email"
+        type="email"
+      ></app-custom-input>
+
+      <app-custom-input
+        [control]="password"
+        label="Senha"
+        inputId="password"
+        placeholder="Digite sua senha"
+        type="password"
+      ></app-custom-input>
+
+      <app-custom-input
+        [control]="confirmPassword"
+        label="Confirme a senha"
+        inputId="confirm-password"
+        placeholder="Repita sua senha"
+        type="password"
+      ></app-custom-input>
+
+      <app-custom-input
+        [control]="cpf"
+        label="CPF"
+        inputId="cpf"
+        placeholder="Digite seu CPF"
+        type="text"
+      ></app-custom-input>
+
+      <div class="col-12 mb-2">
+        <small>Aqui ira os termos de acordo</small>
+
+      </div>
+
+      <button (click)="onSubmit($event)" [disabled]="!isValid()" class="btn btn-primary custom-button">Cadastrar</button>
+
+    </div>
+  </div>
+</div>

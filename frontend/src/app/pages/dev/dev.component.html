@@ -1,0 +1,61 @@
+<div class="dev-screen">
+  <h1>Tela de componentes usáveis</h1>
+  <div class="col-12">
+    <h2>Input</h2>
+    <div class="row">
+      <div class="col-6">
+        <app-custom-input
+          [control]="control"
+          label="Exemplo de input"
+          inputId="Exemplo de input"
+          placeholder="Digite algo"
+        ></app-custom-input>
+      </div>
+      <div class="col-6 d-flex align-items-center">
+        Valor do input: {{ control.value }}
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <h2>Tosters & Tooltip</h2>
+    <div class="col-12">
+      <div class="row">
+        <div class="buttons d-flex col-12">
+          <button
+            class="btn btn-primary mx-2"
+            (click)="showStandard()"
+            ngbTooltip="Will disappear in 5s"
+          >
+            Standard toast
+          </button>
+          <button
+            class="btn btn-success mx-2"
+            (click)="showSuccess()"
+            ngbTooltip="Will disappear in 10s"
+          >
+            Success toast
+          </button>
+          <button
+            class="btn btn-danger mx-2"
+            (click)="showDanger()"
+            ngbTooltip="Will disappear in 15s"
+          >
+            Danger toast
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <h2>Loader</h2>
+    <div class="col-12">
+      <div class="row">
+        <div class="buttons d-flex col-12">
+          <button class="btn btn-primary mx-2" (click)="showLoader()">
+            Show loader
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="p-4">
+  <h3>Criar empresa</h3>
+  <div class="col-12">
+    <app-custom-input
+      [control]="nomeEmpresa"
+      label="Nome da empresa"
+      inputId="nomeEmpresa"
+      placeholder="Digite o CNPJ da empresa"
+    ></app-custom-input>
+    <app-custom-input
+      [control]="cnpjEmpresa"
+      label="CNPJ"
+      inputId="cnpjEmpresa"
+      placeholder="Digite o CNPJ da empresa"
+    ></app-custom-input>
+  </div>
+  <div class="mb-2">
+    <small
+      >Ao criar uma empresa, seu usuário será usado como administrador</small
+    >
+  </div>
+
+  <button class="btn btn-primary" (click)="onSubmit()">Criar empresa</button>
+</div>

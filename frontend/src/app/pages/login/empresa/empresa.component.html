@@ -1,0 +1,38 @@
+<div
+  class="form-container d-flex justify-content-center align-items-center login-bg py-5"
+>
+  <div class="card shadow-lg p-5 col-4">
+    <div class="d-flex align-items-center justify-content-center mb-4">
+      <h2>Empresas</h2>
+    </div>
+    <div>
+      <div class="col-12 mb-3">
+        <label for="selectedEmpresaId"> Suas Empresas </label>
+        <select
+          class="form-control"
+          [formControl]="selectedEmpresaId"
+          id="selectedEmpresaId"
+        >
+          <option [value]="null" selected>Escolha uma empresa</option>
+          <option *ngFor="let item of empresas" [value]="item.id">
+            {{ item.nome }}
+          </option>
+        </select>
+      </div>
+      <button
+        (click)="onSubmit($event)"
+        [disabled]="isDisabled()"
+        class="btn btn-primary custom-button mb-3"
+      >
+        Entrar
+      </button>
+
+      <div class="alert alert-primary custom-alert mb-0">
+        Não tem sua empresa salva?
+        <a class="text-primary cursor-pointer" (click)="openModalCreateCompany()"
+          >Crie uma agora</a
+        >.
+      </div>
+    </div>
+  </div>
+</div>

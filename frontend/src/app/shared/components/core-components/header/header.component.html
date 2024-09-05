@@ -1,0 +1,72 @@
+<nav
+  class="navbar navbar-expand-lg navbar-dark bg-dark px-4 d-flex justify-content-between header"
+>
+  <a class="navbar-brand" href="/home">{{ title }}</a>
+
+  <ul class="navbar-nav ms-auto">
+
+    <li *ngIf="isAuthenticated">
+      <a
+        class="nav-link text-white"
+        tabindex="0"
+        id="navbarLogin"
+        role="button"
+        (click)="navigateToUser()"
+        >Meu usuário</a
+      >
+    </li>
+    <li *ngIf="isAuthenticatedCompany">
+      <a
+        class="nav-link text-white"
+        tabindex="0"
+        id="navbarLogin"
+        role="button"
+        (click)="navigateToCompany()"
+        >Minha empresa</a
+      >
+    </li>
+    <li *ngIf="!isAuthenticated">
+      <a
+        class="nav-link text-white"
+        tabindex="0"
+        id="navbarLogin"
+        role="button"
+        (click)="navigateToLogin()"
+        >Entrar</a
+      >
+    </li>
+    <li>
+      <ul class="navbar-nav ms-auto" *ngIf="isAuthenticated">
+        <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
+          <a
+            class="nav-link text-white"
+            tabindex="0"
+            ngbDropdownToggle
+            id="navbarDropdownLogout"
+            role="button"
+          >
+            Sair
+          </a>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="navbarDropdownLogout"
+            class="dropdown-menu bg-dark text-white"
+          >
+            <a ngbDropdownItem class="text-white" (click)="userLogout($event)"
+              >Sair do usuário</a
+            >
+            <a ngbDropdownItem class="text-white" (click)="companyLogout($event)" *ngIf="isAuthenticatedCompany"
+              >Sair da empresa</a
+            >
+            <a ngbDropdownItem class="text-white" (click)="navigateToLoginCompany($event)" *ngIf="!isAuthenticatedCompany"
+              >Entrar na empresa</a
+            >
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+
+
+</nav>

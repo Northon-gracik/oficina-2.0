@@ -46,9 +46,22 @@ public class CompanyController {
     @GetMapping("/recovery")
     public ResponseEntity<?> recoveyCompany(@RequestAttribute("authenticatedCompany") Optional<Company> authenticatedCompany) {
         try {
-            var companyCreated = companyService.recoveryCompany(authenticatedCompany);
+            var companyRecovered = companyService.recoveryCompany(authenticatedCompany);
 
-            return new ResponseEntity<>(companyCreated, HttpStatus.CREATED);
+            return new ResponseEntity<>(companyRecovered, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
+        }
+        
+    }
+    
+    @GetMapping("/logout")
+    public ResponseEntity<?> logoutCompany() {
+        try {
+            System.out.println("Logout Company");
+            var tokenOnlyUser = companyService.logoutCompany();
+
+            return new ResponseEntity<>(tokenOnlyUser, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
@@ -59,7 +72,7 @@ public class CompanyController {
     public ResponseEntity<?> getMethodName(@RequestBody CompanyLoginDTO company) {
         try {
             System.out.println("tokenCompany");
-            RecoveryJwtTokenDto tokenCompany = companyService.loginCompany(company.nome());
+            RecoveryJwtTokenDto tokenCompany = companyService.loginCompany(company.idEmpresa());
 
             return new ResponseEntity<>(tokenCompany, HttpStatus.CREATED);
         } catch (Exception e) {

@@ -1,0 +1,30 @@
+// Importando variáveis de cores do Bootstrap
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+* {
+  font-family: Comic Sans MS, cursive, sans-serif;;
+}
+
+$primary-color: $primary; // Usando a cor primária do Bootstrap
+$secondary-color: $secondary;
+$success-color: $success;
+$error-color: $danger;
+$input-border-color: $border-color;
+$input-border-radius: 0.375rem; // 6px
+$input-padding: 0.75rem 1rem;
+$card-bg-color: $body-bg;
+$card-border-radius: 0.75rem; // 12px
+
+
+// Variáveis de cores
+$primary-color: #007bff;
+$secondary-color: #28a745;
+$login-background-color: #f8f9fa; // Azul claro ou cinza
+$signup-background-color: #e9f7ef; // Verde claro ou laranja
+
+// Outras variáveis
+$input-border-color: #ced4da;
+$input-border-radius: 0.25rem;
+$input-padding: 0.375rem 0.75rem;
+$error-color: #dc3545;
