@@ -1,0 +1,3 @@
+instalar postgres
+
+https://www.atlantic.net/dedicated-server-hosting/how-to-install-and-configure-postgres-14-on-ubuntu/
