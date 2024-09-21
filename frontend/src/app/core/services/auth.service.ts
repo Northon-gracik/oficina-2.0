@@ -72,6 +72,7 @@ export class AuthService {
   logout(): void {
     this.clearToken();
     this.authUserStatus.next(false);
+    this.authCompanyStatus.next(false);
   }
 
   isAuthenticated(): boolean {

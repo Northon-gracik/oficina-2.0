@@ -1,20 +1,17 @@
 package com.oficina.backend.security.userdetails;
 
-
 import com.oficina.backend.entitities.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Getter
 public class UserDetailsImpl implements UserDetails {
 
-    private User user; // Classe de usuário que criamos anteriormente
+    private final User user; // Classe de usuário que criamos anteriormente
 
     public UserDetailsImpl(User user) {
         this.user = user;
@@ -33,9 +30,7 @@ public class UserDetailsImpl implements UserDetails {
         //         .stream()
         //         .map(role -> new SimpleGrantedAuthority(role.getName().name()))
         //         .collect(Collectors.toList());
-        ArrayList collection = new ArrayList<>();
-
-        return collection;
+        return Collections.emptyList();
     }
 
     @Override
@@ -67,5 +62,4 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

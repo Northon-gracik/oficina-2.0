@@ -1,0 +1,43 @@
+<div class="">
+    <div class="card shadow-lg py-3 px-4">
+        <div class="d-flex align-items-center justify-content-center mb-4">
+            <h2>Cadastro de Cliente</h2>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <app-custom-input [control]="nomeCompleto" label="Nome Completo"
+                    placeholder="Digite o nome completo" type="text"></app-custom-input>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-4">
+                <app-custom-input [control]="endereco" label="Endereço" 
+                    placeholder="Digite o endereço" type="text"></app-custom-input>
+            </div>
+            <div class="col-4">
+                <app-custom-input [control]="numeroTelefone" label="Número de Telefone"
+                    placeholder="Digite o número de telefone" type="tel"></app-custom-input>
+            </div>
+            <div class="col-4">
+                <app-custom-input [control]="email" label="Email" 
+                    placeholder="Digite o email" type="email"></app-custom-input>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-6">
+                <app-custom-input [control]="dataNascimento" label="Data de Nascimento"
+                    placeholder="Digite a data de nascimento" type="date"></app-custom-input>
+            </div>
+            <div class="col-6">
+                <app-custom-input [control]="numeroIdentificacao" label="CPF/CNPJ"
+                    placeholder="Digite o CPF ou CNPJ" type="numeroIdentificacao"></app-custom-input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button (click)="onSubmit()" [disabled]="!isFormValid()"
+                    class="btn btn-primary custom-button">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

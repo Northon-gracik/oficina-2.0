@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "user_roles", schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor

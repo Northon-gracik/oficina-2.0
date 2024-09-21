@@ -1,14 +1,9 @@
 <div class="mb-4">
   <label [for]="inputId" class="form-label custom-label">{{ label }}</label>
-  <input [id]="inputId"
-         [type]="type"
-         [formControl]="control"
-         [placeholder]="placeholder"
-         class="form-control custom-input"
-         [ngClass]="{'is-invalid': control.invalid && (control.dirty || control.touched)}">
+  <input [id]="inputId" [type]="type" [formControl]="control" [placeholder]="placeholder"
+    class="form-control custom-input" [ngClass]="{'is-invalid': control.invalid && (control.dirty || control.touched)}"
+    [mask]="mask">
   <div *ngIf="control.invalid && (control.dirty || control.touched)" class="text-danger custom-error">
-    <ng-container *ngFor="let error of getErrors()">
-      <div>{{ error }}</div>
-    </ng-container>
+    <div *ngFor="let error of getErrors()">{{ error }}</div>
   </div>
 </div>

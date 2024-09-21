@@ -34,6 +34,8 @@ public class SecurityConfiguration {
             "companies/recovery",
             "companies/login",
             "companies/logout",
+            "/clients",
+            "/clients/{id}",
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente

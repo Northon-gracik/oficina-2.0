@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Table(name = "companies")
+@Table(name = "companies", schema = "public")
 @Entity(name = "Company")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,7 +38,7 @@ public class Company {
     @Column(unique = true)
     public String schema;
 
-    @OneToMany(mappedBy = "company")
-    @JsonBackReference
-    private List<UserRole> userRoles;
+    @JsonIgnore
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    private Set<UserRole> userRoles;
 }

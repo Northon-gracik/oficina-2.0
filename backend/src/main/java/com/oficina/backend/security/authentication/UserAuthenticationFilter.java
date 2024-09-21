@@ -1,19 +1,17 @@
 package com.oficina.backend.security.authentication;
 
-import com.oficina.backend.entitities.Company;
 import com.oficina.backend.entitities.User;
+import com.oficina.backend.entitities.UserRole;
 import com.oficina.backend.repositories.CompanyRepository;
 import com.oficina.backend.repositories.UserRepository;
 import com.oficina.backend.security.config.SecurityConfiguration;
 import com.oficina.backend.security.userdetails.UserDetailsImpl;
 
-import io.micrometer.observation.Observation.Context;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +20,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 
 @Component
 public class UserAuthenticationFilter extends OncePerRequestFilter {
@@ -41,23 +42,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         if (checkIfEndpointIsNotPublic(request)) {
             String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
             if (token != null) {
-                String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
-                User user = userRepository.findByEmail(subject).get(); // Busca o usuário pelo email (que é o assunto do token)
-                UserDetailsImpl userDetails = new UserDetailsImpl(user); // Cria um UserDetails com o usuário encontrado
-
-                // Cria um objeto de autenticação do Spring Security
-                Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
-
-                // Define o objeto de autenticação no contexto de segurança do Spring Security
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                
-                String companyName = jwtTokenService.getCompanyName(token);
-                
-                if(!companyName.isEmpty()){
-                    request.setAttribute("authenticatedCompany", companyRepository.findByNome(companyName));
-                }
-
+                processToken(token, request);
             } else {
                 throw new RuntimeException("O token está ausente.");
             }
@@ -65,13 +50,37 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response); // Continua o processamento da requisição
     }
 
+    private void processToken(String token, HttpServletRequest request) {
+        String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
+        Optional<User> userOptional = userRepository.findByEmail(subject); // Busca o usuário pelo email (que é o assunto do token)
+        
+        userOptional.ifPresent(user -> {
+            UserDetailsImpl userDetails = new UserDetailsImpl(user); // Cria um UserDetails com o usuário encontrado
+
+            // Cria um objeto de autenticação do Spring Security
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+
+            // Define o objeto de autenticação no contexto de segurança do Spring Security
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+            var companyId = jwtTokenService.getCompanyId(token);
+            
+            if(companyId != null){
+                companyRepository.findByIdWithUserRoles(companyId).ifPresent(company -> {
+                    // Converte List<UserRole> para Set<UserRole>
+                    Set<UserRole> userRolesSet = new HashSet<UserRole>(company.getUserRoles());
+                    company.setUserRoles(userRolesSet);
+                    request.setAttribute("authenticatedCompany", company);
+                });
+            }
+        });
+    }
+
     // Recupera o token do cabeçalho Authorization da requisição
     private String recoveryToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null) {
-            return authorizationHeader.replace("Bearer ", "");
-        }
-        return null;
+        return authorizationHeader != null ? authorizationHeader.replace("Bearer ", "") : null;
     }
 
     // Verifica se o endpoint requer autenticação antes de processar a requisição

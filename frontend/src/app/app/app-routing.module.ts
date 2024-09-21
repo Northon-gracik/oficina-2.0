@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full'},
+  { path: '', redirectTo: '/empresa/cliente', pathMatch: 'full'},
   { path: '', loadChildren: () => import('../pages/pages-routing.module').then(m => m.PagesRoutingModule) },
-  // { path: '**', redirectTo: '/' }
+  { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({

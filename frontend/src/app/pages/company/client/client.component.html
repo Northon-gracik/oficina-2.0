@@ -1,0 +1,27 @@
+<div class="container-fluid py-5">
+  <div class="row mb-4">
+    <div class="col-12 d-flex justify-content-end">
+      <button class="btn btn-primary" (click)="openClientModal()">Adicionar Cliente</button>
+    </div>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    <div class="col" *ngFor="let client of clients">
+      <div class="card h-100 border shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ client.nomeCompleto }}</h5>
+          <p class="card-text">
+            <strong>Endereço:</strong> {{ client.endereco }}<br>
+            <strong>Telefone:</strong> {{ client.numeroTelefone | numeroTelefone }}<br>
+            <strong>Email:</strong> {{ client.email }}<br>
+            <strong>Data de Nascimento:</strong> {{ client.dataNascimento | date:'dd/MM/yyyy' }}<br>
+            <strong>CPF/CNPJ:</strong> {{ client.numeroIdentificacao | cpfCnpj }}
+          </p>
+          <div class="card-actions">
+            <button class="btn btn-primary" (click)="openEditClientModal(client.id)">Editar</button>
+            <button class="btn btn-danger mx-2" (click)="openDeleteClientModal(client.id)">Deletar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

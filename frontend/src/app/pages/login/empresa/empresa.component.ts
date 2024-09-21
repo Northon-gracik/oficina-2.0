@@ -56,7 +56,7 @@ export class EmpresaComponent implements OnInit {
         this.toasterService.showStandard(
           'Usuário entrou na empresa com sucesso.'
         );
-        this.router.navigate(['/home']);
+        this.router.navigate(['/empresa/cliente']);
       }
       await this.userHttpService.getCompanyData();
     } catch (error) {

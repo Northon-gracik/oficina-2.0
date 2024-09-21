@@ -8,6 +8,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { ModalCriaEmpresaComponent } from './modals/modal-cria-empresa/modal-cria-empresa.component';
 import { HeaderComponent } from './core-components/header/header.component';
 import { FooterComponent } from './core-components/footer/footer.component';
+import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FooterComponent } from './core-components/footer/footer.component';
     FormsModule,
     NgbToastModule,
     NgTemplateOutlet,
-    NgbDropdownModule
+    NgbDropdownModule,
+    NgxMaskDirective, NgxMaskPipe
   ],
   exports: [
     CustomInputComponent,
@@ -33,7 +35,8 @@ import { FooterComponent } from './core-components/footer/footer.component';
     ModalCriaEmpresaComponent,
     HeaderComponent,
     FooterComponent,
-
+  ],
+  providers: [
   ],
 })
 export class ComponentsModule {}

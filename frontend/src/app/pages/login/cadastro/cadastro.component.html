@@ -48,8 +48,11 @@
         <small>Aqui ira os termos de acordo</small>
 
       </div>
+      <div class="d-flex justify-content-between">
 
-      <button (click)="onSubmit($event)" [disabled]="!isValid()" class="btn btn-primary custom-button">Cadastrar</button>
+        <button (click)="navigateToLogin()" class="btn btn-secondary">Voltar</button>
+        <button (click)="onSubmit($event)" [disabled]="!isValid()" class="btn custom-button">Cadastrar</button>
+      </div>
 
     </div>
   </div>

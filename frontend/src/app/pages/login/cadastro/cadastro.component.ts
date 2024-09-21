@@ -75,4 +75,8 @@ export class CadastroComponent implements OnInit {
       this.cpf.valid
     );
   }
+
+  public navigateToLogin() {
+    this.router.navigate(['/login']);
+  }
 }

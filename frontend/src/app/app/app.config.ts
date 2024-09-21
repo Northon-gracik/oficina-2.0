@@ -5,6 +5,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { routes } from './app-routing.module';
 import { provideHttpClient, HttpClientModule, withFetch } from '@angular/common/http';
 import { httpInterceptorProviders } from '../core/interceptors/httpInterceptorProviders';
+import { provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     importProvidersFrom(HttpClientModule),
     httpInterceptorProviders,
+    provideNgxMask(),
+    provideEnvironmentNgxMask(),
   ],
 };

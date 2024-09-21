@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar / Navbar lateral -->
+    <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/empresa">
+              <i class="bi bi-house-door"></i>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/empresa/cliente">
+              <i class="bi bi-people"></i>
+              Clientes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-car-front"></i>
+              Veículos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-tools"></i>
+              Serviços
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2 class="h2">(Algum nome ou nome das paginas filhas)</h2>
+      </div>
+      
+      <!-- Aqui vai o conteúdo específico de cada página -->
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

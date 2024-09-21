@@ -1,6 +1,8 @@
 package com.oficina.backend.services;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.sql.DataSource;
 
@@ -21,8 +23,8 @@ import com.oficina.backend.security.authentication.JwtTokenService;
 
 @Service
 public class CompanyService {
-    @Autowired
-    private DataSource dataSource;
+    // @Autowired
+    // private DataSource dataSource;
 
     @Autowired
     CompanyRepository companyRepository;
@@ -71,7 +73,7 @@ public class CompanyService {
 
         userRoleRepository.save(newUserRole);
 
-        String token = jwtTokenService.generateToken(userEntity.getEmail(), companySaved.nome);
+        String token = jwtTokenService.generateToken(userEntity.getEmail(), companySaved.getId());
 
         return new ReturnCreateCompanyDto(token, companySaved);
     }
@@ -81,7 +83,7 @@ public class CompanyService {
         if (companyOptional.isPresent()) {
             Company company = companyOptional.get();
 
-            company.setUserRoles(userRoleRepository.findByCompany(companyOptional.get()));
+            company.setUserRoles(new HashSet<>(userRoleRepository.findByCompany(companyOptional.get())));
 
             return company;
         }
@@ -96,10 +98,10 @@ public class CompanyService {
         if (companyOptional.isPresent()) {
             Company company = companyOptional.get();
 
-            company.setUserRoles(userRoleRepository.findByCompany(companyOptional.get()));
+            company.setUserRoles(new HashSet<>(userRoleRepository.findByCompany(companyOptional.get())));
 
             return new RecoveryJwtTokenDto(
-                    jwtTokenService.generateToken(userService.userRecoveryEntity().getEmail(), company.nome));
+                    jwtTokenService.generateToken(userService.userRecoveryEntity().getEmail(), company.getId()));
         }
 
         throw new Exception("Não foi encontrado empresa pesquisada");

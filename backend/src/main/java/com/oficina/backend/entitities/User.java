@@ -17,7 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.ToString.Exclude;
 
-@Table(name = "users")
+@Table(name = "users", schema = "public")
 @Entity(name = "User")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,4 +46,5 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private List<UserRole> userRoles;
+    
 }
