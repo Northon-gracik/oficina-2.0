@@ -7,5 +7,7 @@ export enum FormErrorType {
   Pattern = 'pattern',
   InvalidAge = 'invalidAge',
   InvalidCpfCnpj = 'invalidCpfCnpj',
+  Min = 'min',
+  Max = 'max',
   // Adicione mais tipos de erro conforme necessário
 }

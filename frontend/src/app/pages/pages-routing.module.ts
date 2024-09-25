@@ -13,6 +13,7 @@ import { UserDetalhesComponent } from './user-detalhes/user-detalhes.component';
 import { CompanyDetalhesComponent } from './company-detalhes/company-detalhes.component';
 import { ClientComponent } from './company/client/client.component';
 import { LayoutCopanyComponent } from '../core/layout/layout-company/layout-company.component';
+import { VehicleComponent } from './company/vehicle/vehicle.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
     path: 'empresa', component: LayoutCopanyComponent, canActivate: [AuthCompanyGuard], children: [
       { path: '', component: CompanyDetalhesComponent },
       { path: 'cliente', component: ClientComponent },
+      { path: 'veiculo', component: VehicleComponent },
     ]
   }
 ];

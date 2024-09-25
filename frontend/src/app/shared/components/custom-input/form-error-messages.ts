@@ -10,5 +10,7 @@ export const FormErrorMessages: { [key in FormErrorType]: (value?: any) => strin
   [FormErrorType.Pattern]: () => 'O valor inserido não corresponde ao padrão esperado.',
   [FormErrorType.InvalidAge]: () => 'A idade deve estar entre 18 e 120 anos.',
   [FormErrorType.InvalidCpfCnpj]: () => 'CPF ou CNPJ inválido.',
+  [FormErrorType.Min]: (value) => `O valor deve ser maior que value. .`,
+  [FormErrorType.Max]: (value) => `O valor deve ser menor que value. .`,
   // Adicione mais mensagens conforme necessário
 };
