@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ vehicleId ? 'Editar Veículo' : 'Adicionar Veículo' }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <app-custom-input
+      [control]="marca"
+      label="Marca"
+      placeholder="Digite a marca do veículo"
+    ></app-custom-input>
+
+    <app-custom-input
+      [control]="modelo"
+      label="Modelo"
+      placeholder="Digite o modelo do veículo"
+    ></app-custom-input>
+
+    <app-custom-input
+      [control]="ano"
+      label="Ano"
+      type="number"
+      placeholder="Digite o ano do veículo"
+    ></app-custom-input>
+
+    <app-custom-input
+      [control]="km"
+      label="Quilometragem"
+      type="number"
+      placeholder="Digite a quilometragem do veículo"
+    ></app-custom-input>
+
+    <app-custom-input
+      [control]="placa"
+      label="Placa"
+      placeholder="Digite a placa do veículo"
+    ></app-custom-input>
+
+    <app-custom-input
+      [control]="numeroChassi"
+      label="Número do Chassi"
+      placeholder="Digite o número do chassi"
+    ></app-custom-input>
+
+    <app-custom-input
+      [control]="cor"
+      label="Cor"
+      placeholder="Digite a cor do veículo"
+    ></app-custom-input>
+
+    <app-custom-input
+      [control]="clientId"
+      label="ID do Cliente"
+      type="number"
+      placeholder="Digite o ID do cliente"
+    ></app-custom-input>
+
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancelar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!isFormValid()" (click)="onSubmit()">Salvar</button>
+    </div>
+</div>

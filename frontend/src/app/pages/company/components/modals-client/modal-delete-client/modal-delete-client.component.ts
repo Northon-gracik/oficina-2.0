@@ -1,9 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ClientService } from '../../../../core/services/client.service';
-import { ToasterService } from '../../../../shared/components/toaster/toaster.service';
-import { LoaderService } from '../../../../shared/components/loader/loader.service';
-import { IClient } from '../../../../core/models/IClient';
+import { ClientService } from '../../../../../core/services/client.service';
+import { ToasterService } from '../../../../../shared/components/toaster/toaster.service';
+import { LoaderService } from '../../../../../shared/components/loader/loader.service';
+import { IClient } from '../../../../../core/models/IClient';
 
 @Component({
   selector: 'app-modal-delete-client',

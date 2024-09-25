@@ -7,7 +7,7 @@ import { ToasterService } from '../../../shared/components/toaster/toaster.servi
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderService } from '../../../shared/components/loader/loader.service';
 import { FormErrorType } from '../../../shared/components/custom-input/form-error.enum';
-import { ModalClientService } from '../components/modal-client.service';
+import { ModalClientService } from '../components/modals-client/modal-client.service';
 import { IClient } from '../../../core/models/IClient';
 
 @Component({
@@ -20,6 +20,8 @@ import { IClient } from '../../../core/models/IClient';
 export class ClientComponent implements OnInit {
   private modalClientService = inject(ModalClientService);
   private clientHttpService = inject(ClientService);
+  private toasterService = inject(ToasterService);
+  private loader = inject(LoaderService);
 
   public clients: IClient[] = [];
 
@@ -28,8 +30,11 @@ export class ClientComponent implements OnInit {
     await this.getClients();
   }
 
-  public getClients = async () => this.clients = await this.clientHttpService.getAllClients() || [];
-
+  public getClients = async () => {
+    this.loader.show();
+    this.clients = await this.clientHttpService.getAllClients().catch(() => this.toasterService.showDanger('Ocorreu um erro ao buscar os veículos!')) || [];
+    this.loader.hide();
+  }
   public async openClientModal(): Promise<void> {
     await this.modalClientService.openModal();
     await this.getClients();

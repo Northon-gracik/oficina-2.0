@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, Input } from '@angular/core';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ClientService } from '../../../../core/services/client.service';
-import { ToasterService } from '../../../../shared/components/toaster/toaster.service';
-import { LoaderService } from '../../../../shared/components/loader/loader.service';
-import { FormErrorType } from '../../../../shared/components/custom-input/form-error.enum';
-import { SharedModule } from '../../../../shared/shared.module';
+import { ClientService } from '../../../../../core/services/client.service';
+import { ToasterService } from '../../../../../shared/components/toaster/toaster.service';
+import { LoaderService } from '../../../../../shared/components/loader/loader.service';
+import { FormErrorType } from '../../../../../shared/components/custom-input/form-error.enum';
+import { SharedModule } from '../../../../../shared/shared.module';
 import { NgbTooltipModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { IClient } from '../../../../core/models/IClient';
+import { IClient } from '../../../../../core/models/IClient';
 
 @Component({
   selector: 'app-modal-client',
