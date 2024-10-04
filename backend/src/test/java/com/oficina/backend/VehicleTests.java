@@ -54,7 +54,6 @@ public class VehicleTests {
         vehicle.setMarca("Toyota");
         vehicle.setModelo("Corolla");
         vehicle.setAno("2022");
-        vehicle.setKm("10000");
         vehicle.setPlaca("ABC1D23");
         vehicle.setNumeroChassi("1HGBH41JXMN109186");
         vehicle.setCor("Preto");
@@ -111,17 +110,17 @@ public class VehicleTests {
             vehicleService.saveVehicle(vehicle);
         });
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            vehicle.setAno("2022");
-            vehicle.setKm("-1");
-            vehicleService.saveVehicle(vehicle);
-        });
+        // assertThrows(IllegalArgumentException.class, () -> {
+        //     vehicle.setAno("2022");
+        //     vehicle.setKm("-1");
+        //     vehicleService.saveVehicle(vehicle);
+        // });
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            vehicle.setKm("10000");
-            vehicle.setPlaca("ABC123");
-            vehicleService.saveVehicle(vehicle);
-        });
+        // assertThrows(IllegalArgumentException.class, () -> {
+        //     vehicle.setKm("10000");
+        //     vehicle.setPlaca("ABC123");
+        //     vehicleService.saveVehicle(vehicle);
+        // });
 
         assertThrows(IllegalArgumentException.class, () -> {
             vehicle.setPlaca("ABC1D23");
@@ -143,12 +142,12 @@ public class VehicleTests {
         assertThrows(IllegalArgumentException.class, () -> vehicleService.saveVehicle(vehicle));
     }
 
-    @Test
-    public void testValidateVehicleKmNegativo() throws Exception {
-        tenantInterceptor.preHandle(request, response, handler);
-        vehicle.setKm("-1");
-        assertThrows(IllegalArgumentException.class, () -> vehicleService.saveVehicle(vehicle));
-    }
+    // @Test
+    // public void testValidateVehicleKmNegativo() throws Exception {
+    //     tenantInterceptor.preHandle(request, response, handler);
+    //     vehicle.setKm("-1");
+    //     assertThrows(IllegalArgumentException.class, () -> vehicleService.saveVehicle(vehicle));
+    // }
 
     @Test
     public void testValidateVehiclePlacaInvalida() throws Exception {

@@ -17,7 +17,6 @@ public class Vehicle {
     private String marca;
     private String modelo;
     private String ano;
-    private String km;
     private String placa;
 
     @Column(name = "numero_chassi")

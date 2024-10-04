@@ -45,7 +45,7 @@ public class VehicleService {
             existingVehicle.setMarca(updatedVehicle.getMarca());
             existingVehicle.setModelo(updatedVehicle.getModelo());
             existingVehicle.setAno(updatedVehicle.getAno());
-            existingVehicle.setKm(updatedVehicle.getKm());
+            // existingVehicle.setKm(updatedVehicle.getKm());
             existingVehicle.setPlaca(updatedVehicle.getPlaca());
             existingVehicle.setNumeroChassi(updatedVehicle.getNumeroChassi());
             existingVehicle.setCor(updatedVehicle.getCor());
@@ -79,13 +79,13 @@ public class VehicleService {
             throw new IllegalArgumentException("Ano deve estar entre 1900 e " + (currentYear + 1));
         }
 
-        if (vehicle.getKm() == null || !Pattern.matches("\\d+", vehicle.getKm())) {
-            throw new IllegalArgumentException("Quilometragem inválida");
-        }
-        long km = Long.parseLong(vehicle.getKm());
-        if (km < 0 || km > 999999) {
-            throw new IllegalArgumentException("Quilometragem deve estar entre 0 e 999999");
-        }
+        // if (vehicle.getKm() == null || !Pattern.matches("\\d+", vehicle.getKm())) {
+        //     throw new IllegalArgumentException("Quilometragem inválida");
+        // }
+        // long km = Long.parseLong(vehicle.getKm());
+        // if (km < 0 || km > 999999) {
+        //     throw new IllegalArgumentException("Quilometragem deve estar entre 0 e 999999");
+        // }
 
         if (vehicle.getPlaca() == null || !Pattern.matches("[A-Z]{3}\\d[A-Z]\\d{2}|[A-Z]{3}\\d{4}", vehicle.getPlaca())) {
             throw new IllegalArgumentException("Placa inválida");
