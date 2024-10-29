@@ -1,5 +1,8 @@
 {
     "java.compile.nullAnalysis.mode": "disabled",
     "maven.view": "hierarchical",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.sourcePaths": [
+        "frontend/src/app/core/services"
+    ]
 }

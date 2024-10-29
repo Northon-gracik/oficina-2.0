@@ -14,6 +14,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Date;
+import java.util.Collections;
 
 
 @Entity
@@ -28,7 +32,7 @@ public class Inspecao {
     private Long id;
 
     @Column(name = "data_inspecao")
-    private java.time.LocalDateTime dataInspecao;
+    private Date dataInspecao;
 
     @Column(name = "responsavel_inspecao")
     private String responsavelInspecao;
@@ -42,21 +46,21 @@ public class Inspecao {
     @CollectionTable(name = "item_inspecao", joinColumns = @JoinColumn(name = "inspecao_id"))
     @Column(name = "item_presente")
     @MapKeyColumn(name = "item_nome")
-    private java.util.Map<String, Boolean> checklistInspecao = new java.util.HashMap<>();
+    private Map<String, Boolean> checklistInspecao = new HashMap<>();
 
     @Column(name = "nivel_combustivel")
     private long nivelCombustivel;
 
     @Getter
     // Conjunto fixo de itens para o checklist
-    public static final java.util.Map<String, Boolean> FIXED_ITEMS;
+    public static final Map<String, Boolean> FIXED_ITEMS;
 
     // Inicializa o conjunto de itens
     static {
-        java.util.Map<String, Boolean> items = new java.util.HashMap<>();
+        Map<String, Boolean> items = new HashMap<>();
         items.put("antena", false);
         items.put("GPS", false);
-        items.put("carregadorCelular", false);
+        items.put("carregadorDeCelular", false);
         items.put("radioCd", false);
         items.put("documentos", false);
         items.put("calotas", false);
@@ -75,22 +79,25 @@ public class Inspecao {
         items.put("freioEstacionamento", false);
         items.put("pneus", false);
         items.put("palhetasLimpador", false);
-        items.put("chaveRodaMacacoTriangulo", false);
+        items.put("chaveDeRoda", false);
+        items.put("macaco", false);
+        items.put("triangulo", false);
         items.put("iluminacao", false);
         items.put("arrefecimento", false);
         items.put("fluidoFreio", false);
         items.put("oleoMotor", false);
         items.put("limpezaVidro", false);
         items.put("partidaFrio", false);
-        items.put("bateriaAlternador", false);
+        items.put("bateria", false);
+        items.put("alternador", false);
         items.put("oleoDirecao", false);
 
         // Torna o mapa imutável
-        FIXED_ITEMS = java.util.Collections.unmodifiableMap(items);
+        FIXED_ITEMS = Collections.unmodifiableMap(items);
     }
 
     // Construtor que inicializa a inspeção com o checklist fixo
-    public Inspecao(java.time.LocalDateTime dataInspecao, String responsavelInspecao, String observacoes,
+    public Inspecao(Date dataInspecao, String responsavelInspecao, String observacoes,
             String quilometragem, long nivelCombustivel) {
         this.dataInspecao = dataInspecao;
         this.responsavelInspecao = responsavelInspecao;
@@ -99,12 +106,12 @@ public class Inspecao {
         this.nivelCombustivel = nivelCombustivel;
 
         // Inicializa com o checklist padrão
-        this.checklistInspecao = new java.util.HashMap<>(FIXED_ITEMS);
+        this.checklistInspecao = new HashMap<>(FIXED_ITEMS);
     }
 
     // Método para acessar o checklist imutável
-    public java.util.Map<String, Boolean> getChecklistInspecao() {
-        return java.util.Collections.unmodifiableMap(checklistInspecao);
+    public Map<String, Boolean> getChecklistInspecao() {
+        return Collections.unmodifiableMap(checklistInspecao);
     }
 
     // Método para modificar valores do checklist (somente os valores, não as

@@ -1,0 +1,38 @@
+<div class="itens-container">    
+    <button class="btn btn-primary" (click)="adicionarItem()" *ngIf="isPendente">Adicionar Item</button>
+  
+    <!-- Exibição dos Itens a Fazer -->
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Descrição</th>
+            <th>Tipo Mecânico</th>
+            <th>Status Manutenção</th>
+            <th>Tipo Manutenção</th>
+            <th>Valor Total Peças</th>
+            <th>Valor Mão de Obra</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of itensAFazer; let i = index">
+            <td >{{ i + 1 }}</td>
+            <td >{{ item.descricao }}</td>
+            <td >{{ item.tipoMecanico }}</td>
+            <td >{{ item.statusManutencao }}</td>
+            <td >{{ item.tipoManutencao }}</td>
+            <td >{{ item.valorTotalPecas | currency : 'BRL' }}</td>
+            <td >{{ item.valorMaoDeObra | currency : 'BRL' }}</td>
+            <td>
+              <!-- <button class="btn btn-warning" (click)="editarItem(item.id)">Editar</button>
+              <button class="btn btn-danger" (click)="removerItem(i)">Remover</button> -->
+              <button class="btn btn-outline-secondary" (click)="editarItem(item.id)">Vizualizar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+

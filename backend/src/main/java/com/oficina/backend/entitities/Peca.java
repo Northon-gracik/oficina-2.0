@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -27,10 +28,10 @@ public class Peca {
 
     private String descricao;
 
-    @Column(name = "valor_unitario")
-    private double valorUnitario;
+    @Column(name = "valor_unitario", precision = 10, scale = 2)
+    private BigDecimal valorUnitario;
 
-    private double quantidade;
+    private Integer quantidade;
 
     @Column(name = "part_number")
     private String partNumber;

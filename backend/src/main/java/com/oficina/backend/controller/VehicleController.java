@@ -79,7 +79,34 @@ public class VehicleController {
             return ErrorUtil.createErrorResponse("Erro ao deletar veículo", e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchVehicles(
+            @RequestParam(value = "clientId", required = false) Long clientId,
+            @RequestParam("searchTerm") String searchTerm) {
+        try {
+            List<Vehicle> vehicles = vehicleService.searchVehicles(clientId, searchTerm);
+            return new ResponseEntity<>(vehicles, HttpStatus.OK);
+        } catch (Exception e) {
+            return ErrorUtil.createErrorResponse("Erro ao buscar veículos", e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<?> findByClientId(@PathVariable Long clientId) {
+        try {
+            List<Vehicle> vehicles = vehicleService.findByClientId(clientId);
+            return new ResponseEntity<>(vehicles, HttpStatus.OK);
+        } catch (Exception e) {
+            return ErrorUtil.createErrorResponse("Erro ao buscar veículos do cliente", e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
+
+    // curl --request GET --url http://localhost:8080/vehicles/search?clientId=1&searchTerm=termo-de-busca
 
 // curl --request GET --url http://localhost:8080/vehicles
 // curl --request GET --url http://localhost:8080/vehicles/1

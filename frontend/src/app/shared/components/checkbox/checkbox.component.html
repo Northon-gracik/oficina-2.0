@@ -1,0 +1,11 @@
+<label class="checkbox-container">
+    <input
+      type="checkbox"
+      [checked]="isChecked"
+      [disabled]="disabled || control.disabled"
+      (change)="onCheckboxChange($event)"
+    />
+    <span class="checkbox-mark"></span>
+    <span class="checkbox-label">{{ label }}</span>
+  </label>
+  

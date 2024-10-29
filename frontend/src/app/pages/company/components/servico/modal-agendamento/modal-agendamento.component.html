@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h4 class="modal-title">Agendar Serviço</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+      <app-custom-input
+        [control]="dataAgendamento"
+        label="Data do Agendamento"
+        type="datetime-local"
+        placeholder="Escolha a data e hora"
+      ></app-custom-input>
+  
+      <app-custom-input
+        [control]="descricaoProblema"
+        label="Descrição do Problema"
+        placeholder="Descreva o problema do veículo"
+      ></app-custom-input>
+  
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!agendamentoForm.valid" (click)="onSubmit()">Salvar</button>
+      </div>
+  </div>
+  

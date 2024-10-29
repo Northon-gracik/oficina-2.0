@@ -1,0 +1,39 @@
+<div 
+  class="dropzone"
+  [class.disabled]="disabled"
+  (drop)="onFileDropped($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+>
+  <input 
+    type="file" 
+    [multiple]="multiple" 
+    [accept]="acceptedTypes" 
+    (change)="onFileSelected($event)" 
+    [disabled]="disabled"
+  />
+
+  <p class="m-0">Arraste e solte arquivos aqui,<br>ou clique para selecionar</p>
+</div>
+
+<!-- Exibição de arquivos fora do input -->
+<div class="file-previews" *ngIf="filePreviews.length > 0">
+  <div *ngFor="let file of filePreviews" class="file-preview">
+    <!-- Se for imagem, exibe a pré-visualização -->
+    <ng-container *ngIf="file.type === 'image'">
+      <img [src]="file.preview" alt="Preview of {{ file.fileName }}" />
+      <p>{{ file.fileName }}</p>
+    </ng-container>
+    <!-- Se for PDF, exibe um ícone e o nome do arquivo -->
+    <ng-container *ngIf="file.type === 'pdf'">
+      <i class="file-icon pdf-icon"></i>
+      <p>{{ file.fileName }}</p>
+    </ng-container>
+    <!-- Para outros tipos de arquivos, apenas o nome do arquivo -->
+    <ng-container *ngIf="file.type === 'other'">
+      <i class="file-icon other-icon"></i>
+      <p>{{ file.fileName }}</p>
+    </ng-container>
+  </div>
+</div>
+

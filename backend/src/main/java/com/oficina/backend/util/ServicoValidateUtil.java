@@ -1,7 +1,10 @@
 package com.oficina.backend.util;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.hibernate.mapping.Map;
 
@@ -16,6 +19,16 @@ import com.oficina.backend.entitities.Manutencao;
 import com.oficina.backend.enums.StatusServico;
 
 public class ServicoValidateUtil {
+    /**
+     * Valida se o agendamento está correto.
+     * 
+     * Verifica se a data do agendamento é futura, se a descrição do problema
+     * é diferente de nula e tem pelo menos 10 caracteres, e se o status do
+     * agendamento é diferente de nulo.
+     * 
+     * @param agendamento Agendamento a ser validado.
+     * @throws IllegalArgumentException Caso o agendamento esteja inválido.
+     */
     public static void validarAgendamento(Agendamento agendamento) {
         if (agendamento.getDataAgendamento() == null
                 || agendamento.getDataAgendamento().isBefore(LocalDateTime.now())) {
@@ -50,7 +63,7 @@ public class ServicoValidateUtil {
             throw new IllegalArgumentException("A data de início é obrigatória.");
         }
 
-        if (servico.getDataConclusao() != null && servico.getDataInicio().isAfter(servico.getDataConclusao())) {
+        if (servico.getDataConclusao() != null && servico.getDataInicio().after(servico.getDataConclusao())) {
             throw new IllegalArgumentException("A data de início não pode ser posterior à data de conclusão.");
         }
 
@@ -62,11 +75,11 @@ public class ServicoValidateUtil {
             throw new IllegalArgumentException("O custo final não pode ser negativo.");
         }
 
-        if (servico.getTempoEstimado() != null && servico.getTempoEstimado() < 0) {
+        if (servico.getTempoEstimado() != null && servico.getTempoEstimado().toMinutes() < 0) {
             throw new IllegalArgumentException("O tempo estimado não pode ser negativo.");
         }
 
-        if (servico.getTempoReal() != null && servico.getTempoReal() < 0) {
+        if (servico.getTempoReal() != null && servico.getTempoReal().toMinutes() < 0) {
             throw new IllegalArgumentException("O tempo real não pode ser negativo.");
         }
 
@@ -81,7 +94,7 @@ public class ServicoValidateUtil {
     }
 
     public static void validarInspecao(Inspecao inspecao) {
-        if (inspecao.getDataInspecao() == null || inspecao.getDataInspecao().isAfter(java.time.LocalDateTime.now())) {
+        if (inspecao.getDataInspecao() == null || inspecao.getDataInspecao().after(new Date())) {
             throw new IllegalArgumentException("A data da inspeção deve ser válida e não pode ser no futuro.");
         }
 
@@ -137,17 +150,12 @@ public class ServicoValidateUtil {
             throw new IllegalArgumentException("A data de criação é obrigatória.");
         }
 
-        if (orcamento.getDataPrevista() != null && orcamento.getDataPrevista().isBefore(LocalDateTime.now())) {
+        if (orcamento.getDataPrevista() != null && orcamento.getDataPrevista().after(new Date())) {
             throw new IllegalArgumentException("A data prevista deve ser no futuro ou presente.");
         }
 
-        if (orcamento.getDataValidade() != null && orcamento.getDataValidade().isBefore(LocalDateTime.now())) {
+        if (orcamento.getDataValidade() != null && orcamento.getDataValidade().after(new Date())) {
             throw new IllegalArgumentException("A data de validade deve ser no futuro.");
-        }
-
-        // Validação de custo estimado
-        if (orcamento.getCustoTotalEstimado() < 0) {
-            throw new IllegalArgumentException("O custo total estimado deve ser positivo.");
         }
 
         // Validação de status
@@ -159,15 +167,6 @@ public class ServicoValidateUtil {
         if (orcamento.getResponsavelEmissao() == null || orcamento.getResponsavelEmissao().trim().isEmpty()) {
             throw new IllegalArgumentException("O responsável pela emissão não pode estar vazio.");
         }
-
-        // Validação da lista de itens a fazer
-        // if (orcamento.getItensAFazer() == null || orcamento.getItensAFazer().isEmpty()) {
-        //     throw new IllegalArgumentException("A lista de itens a fazer não pode estar vazia.");
-        // }
-
-        // for (ItemAFazer item : orcamento.getItensAFazer()) {
-        //     validateItemAFazer(item);
-        // }
     }
 
     public static void validateItemAFazer(ItemAFazer itemAFazer) {
@@ -194,17 +193,20 @@ public class ServicoValidateUtil {
         if (itemAFazer.getTipoManutencao() == null) {
             throw new IllegalArgumentException("O tipo de manutenção é obrigatório.");
         }
+        if (itemAFazer.getTempoEstimado() == null || itemAFazer.getTempoEstimado().isNegative()
+                || itemAFazer.getTempoEstimado().isZero()) {
+            throw new IllegalArgumentException("O tempo estimado deve ser um valor positivo.");
+        }
 
         // Validação de valor total de peças
-        if (itemAFazer.getValorTotalPecas() < 0) {
-            throw new IllegalArgumentException("O valor total das peças não pode ser negativo.");
-        }
+        // if (itemAFazer.getValorTotalPecas() == null || itemAFazer.getValorTotalPecas().signum() < 0) {
+        //     throw new IllegalArgumentException("O valor total das peças é obrigatório e não pode ser negativo.");
+        // }
 
         // Validação de valor da mão de obra
-        if (itemAFazer.getValorMaoDeObra() < 0) {
-            throw new IllegalArgumentException("O valor da mão de obra não pode ser negativo.");
+        if (itemAFazer.getValorMaoDeObra() == null || itemAFazer.getValorMaoDeObra().signum() < 0) {
+            throw new IllegalArgumentException("O valor da mão de obra é obrigatório e não pode ser negativo.");
         }
-
         // Validação da lista de peças
         // if (itemAFazer.getPeca() == null || itemAFazer.getPeca().isEmpty()) {
         //     throw new IllegalArgumentException("A lista de peças não pode estar vazia.");
@@ -231,8 +233,8 @@ public class ServicoValidateUtil {
         }
 
         // Validação de valor unitário
-        if (peca.getValorUnitario() < 0) {
-            throw new IllegalArgumentException("O valor unitário da peça não pode ser negativo.");
+        if (peca.getValorUnitario() == null || peca.getValorUnitario().signum() < 0) {
+            throw new IllegalArgumentException("O valor unitário da peça é obrigatório e não pode ser negativo.");
         }
 
         // Validação de quantidade
@@ -255,7 +257,7 @@ public class ServicoValidateUtil {
             throw new IllegalArgumentException("A data de início não pode ser nula.");
         }
 
-        if (manutencao.getDataConclusao() != null && manutencao.getDataConclusao().isBefore(manutencao.getDataInicio())) {
+        if (manutencao.getDataConclusao() != null && manutencao.getDataConclusao().before(manutencao.getDataInicio())) {
             throw new IllegalArgumentException("A data de conclusão não pode ser anterior à data de início.");
         }
 
@@ -263,9 +265,9 @@ public class ServicoValidateUtil {
             throw new IllegalArgumentException("A descrição detalhada não pode ser nula ou vazia.");
         }
 
-        if (manutencao.getCustosReais() < 0) {
-            throw new IllegalArgumentException("Os custos reais não podem ser negativos.");
-        }
+        // if (manutencao.getCustosReais() == null || manutencao.getCustosReais().signum() < 0) {
+        //     throw new IllegalArgumentException("Os custos reais são obrigatórios e não podem ser negativos.");
+        // }
 
         if (manutencao.getTecnicoResponsavel() == null || manutencao.getTecnicoResponsavel().isEmpty()) {
             throw new IllegalArgumentException("O nome do técnico responsável não pode ser nulo ou vazio.");

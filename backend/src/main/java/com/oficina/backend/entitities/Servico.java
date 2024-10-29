@@ -3,12 +3,19 @@ package com.oficina.backend.entitities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
+import java.time.Duration;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.oficina.backend.enums.FormaPagamento;
 import com.oficina.backend.enums.StatusPagamento;
 import com.oficina.backend.enums.StatusServico;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -42,10 +49,10 @@ public class Servico {
     private String descricao;
 
     @Column(name = "data_inicio")
-    private LocalDateTime dataInicio;
+    private Date dataInicio;
 
     @Column(name = "data_conclusao")
-    private LocalDateTime dataConclusao;
+    private Date dataConclusao;
 
     @Enumerated(EnumType.STRING)
     private StatusServico status;
@@ -61,13 +68,13 @@ public class Servico {
     private BigDecimal custoFinal;
 
     @Column(name = "tempo_estimado")
-    private Integer tempoEstimado; // em horas
+    private Duration tempoEstimado; // em horas
 
     @Column(name = "tempo_real")
-    private Integer tempoReal; // em horas
+    private Duration tempoReal; // em horas
 
-    @Column(columnDefinition = "TEXT")
-    private String notas;
+    // @ElementCollection
+    // private List<String> notas = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "forma_pagamento")
@@ -76,6 +83,9 @@ public class Servico {
     @Enumerated(EnumType.STRING)
     @Column(name = "status_pagamento")
     private StatusPagamento statusPagamento;
+
+    @Column(name = "valor_pagamento", precision = 10, scale = 2)
+    private BigDecimal valorPagamento;
 
     @OneToOne
     @JoinColumn(name = "agendamento_id")

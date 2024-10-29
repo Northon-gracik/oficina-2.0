@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { FormErrorType } from './form-error.enum';
 import { FormErrorMessages } from './form-error-messages';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { generateRandomId } from '../../util/stringUtil';
+import { InputType } from './InputType.type';
 
-type InputType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'date' | 'numeroIdentificacao';
 
 @Component({
   selector: 'app-custom-input',
@@ -20,14 +21,17 @@ export class CustomInputComponent implements OnInit {
   @Input() mask: string = '';
 
   public inputId: string = '';
+  public isRequired = false;
 
   ngOnInit() {
+    this.isRequired = this.control.hasValidator(Validators.required);    
+
     if (this.type === 'tel') {
       this.mask = '(00) 00000-0000';
     } else if (this.type === 'numeroIdentificacao') {
       this.mask = '000.000.000-00||00.000.000/0000-00';
     }
-    this.inputId = this.generateRandomId();
+    this.inputId = generateRandomId();
   }
 
   getErrors(): string[] {
@@ -46,7 +50,4 @@ export class CustomInputComponent implements OnInit {
     return errors;
   }
 
-  private generateRandomId(): string {
-    return 'input_' + Math.random().toString(36).substr(2, 9);
-  }
 }

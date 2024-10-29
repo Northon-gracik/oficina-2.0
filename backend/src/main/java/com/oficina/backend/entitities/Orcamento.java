@@ -18,6 +18,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -30,16 +33,16 @@ public class Orcamento {
     private long id;
 
     @Column(name = "data_criacao")
-    private LocalDateTime dataCriacao;
+    private Date dataCriacao;
 
     @Column(name = "data_prevista")
-    private LocalDateTime dataPrevista;
+    private Date dataPrevista;
 
     @Column(name = "data_validade")
-    private LocalDateTime dataValidade;
+    private Date dataValidade;
 
-    @Column(name = "custo_total_estimado")
-    private double custoTotalEstimado;
+    @Column(name = "custo_total_estimado", precision = 10, scale = 2)
+    private BigDecimal custoTotalEstimado;
 
     @Enumerated(EnumType.STRING)
     private StatusOrcamento status;
@@ -49,5 +52,5 @@ public class Orcamento {
 
     @OneToMany(mappedBy = "orcamento",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("orcamento-itemAFazer")
-    private java.util.List<ItemAFazer> itensAFazer = new ArrayList<>();
+    private List<ItemAFazer> itensAFazer = new ArrayList<>();
 }

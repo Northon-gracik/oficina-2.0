@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
@@ -22,7 +24,7 @@ public class Entrega {
     private String responsavelEntrega;
 
     @Column(name = "data_entrega")
-    private java.time.LocalDateTime dataEntrega;
+    private Date dataEntrega;
 
     @Column(name = "observacoes_entrega")
     private String observacoesEntrega;

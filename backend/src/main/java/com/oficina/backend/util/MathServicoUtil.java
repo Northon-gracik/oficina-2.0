@@ -7,41 +7,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oficina.backend.entitities.ItemAFazer;
 import com.oficina.backend.entitities.Servico;
+import com.oficina.backend.enums.StatusManutencao;
 
 public class MathServicoUtil {
 
-    public static double calcularCustoTotalEstimado(List<ItemAFazer> itensAFazer) {
+    public static BigDecimal calcularCustoDosItens(List<ItemAFazer> itensAFazer) {
         return itensAFazer.stream()
-                .mapToDouble(item -> {
-                    double valorTotalPecas = calcularValorTotalPecas(item);
+                .map(item -> {
+                    BigDecimal valorTotalPecas = calcularValorTotalPecas(item);
                     item.setValorTotalPecas(valorTotalPecas);
-                    return valorTotalPecas + item.getValorMaoDeObra();
+                    return valorTotalPecas.add(item.getValorMaoDeObra());
                 })
-                .sum();
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // Função auxiliar para calcular o valor total das peças
-    private static double calcularValorTotalPecas(ItemAFazer itemAFazer) {
+    // Fun o auxiliar para calcular o valor total das pe as
+    private static BigDecimal calcularValorTotalPecas(ItemAFazer itemAFazer) {
         return itemAFazer.getPecas().stream()
-                .mapToDouble(peca -> peca.getValorUnitario() * peca.getQuantidade())
-                .sum();
+                .map(peca -> peca.getValorUnitario().multiply(BigDecimal.valueOf(peca.getQuantidade())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Transactional
-    public static Servico calcularValoresServico(Servico servico) {
-        servico.getOrcamento().setCustoTotalEstimado(MathServicoUtil.calcularCustoTotalEstimado(servico.getOrcamento().getItensAFazer()));
-        servico.setCustoEstimado(BigDecimal.valueOf(servico.getOrcamento().getCustoTotalEstimado()));
+    public static Servico calcularValoresEstimadoServico(Servico servico) {
+        servico.getOrcamento().setCustoTotalEstimado(MathServicoUtil.calcularCustoDosItens(servico.getOrcamento().getItensAFazer()));
+        servico.setCustoEstimado(servico.getOrcamento().getCustoTotalEstimado());
         return servico;
     }
 
     
-    public static BigDecimal calcularCustoFinal(Servico servico) {
-        return servico.getManutencao().getItensAFazer().stream()
-                .map(item -> BigDecimal.valueOf(item.getValorMaoDeObra()).add(
-                        item.getPecas().stream()
-                                .map(peca -> BigDecimal.valueOf(peca.getValorUnitario() * peca.getQuantidade()))
-                                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                ))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    public static Servico calcularCustoFinal(Servico servico) {
+        List<ItemAFazer> itensAFazerNaoCancelados = servico.getManutencao().getItensAFazer().stream()
+                .filter(item -> item.getStatusManutencao() != StatusManutencao.CANCELADA)
+                .toList();
+        servico.getManutencao().setCustosReais(MathServicoUtil.calcularCustoDosItens(itensAFazerNaoCancelados));
+        servico.setCustoFinal(servico.getOrcamento().getCustoTotalEstimado());
+        return servico;
     }
 }

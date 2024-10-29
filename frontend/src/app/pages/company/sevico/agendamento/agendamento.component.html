@@ -1,0 +1,16 @@
+<div class="container-fluid card shadow-lg py-3 px-4 my-4">
+  <app-custom-input [control]="dataAgendamento" label="Data Agendada" type="datetime-local"
+    placeholder="Escolha a data e hora"></app-custom-input>
+
+  <app-custom-input [control]="descricaoProblema" label="Descrição do Problema"
+    placeholder="Descreva o problema do veículo"></app-custom-input>
+  <div class="mb-3">
+    <small class="text-danger mb-3">Futuramente será implementado uma lista de
+      OBSERVAÇÕES/NOTAS/COMENTARIOS/DESCRIÇÕES</small>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-end">
+
+    <button class="btn btn-outline-primary" (click)="avancar()">Proxima etapa</button>
+  </div>
+</div>

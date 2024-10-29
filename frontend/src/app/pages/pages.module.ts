@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from '../shared/shared.module';
 import { CadastroComponent } from './login/cadastro/cadastro.component';
@@ -18,6 +18,19 @@ import { ModalDeleteClientComponent } from './company/components/modals-client/m
 import { VehicleComponent } from './company/vehicle/vehicle.component';
 import { ModalVehicleComponent } from './company/components/modals-vehicle/modal-vehicle/modal-vehicle.component';
 import { ModalDeleteVehicleComponent } from './company/components/modals-vehicle/modal-delete-vehicle/modal-delete-vehicle.component';
+import { ServicoListagemComponent } from './company/sevico/servico-listagem/servico-listagem.component';
+import { ModalAgendamentoComponent } from './company/components/servico/modal-agendamento/modal-agendamento.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentsModule } from '../shared/components/components.module';
+import { ServicoDetalhesComponent } from './company/sevico/servico-detalhes/servico-detalhes.component';
+import { InspecaoEntradaComponent } from './company/sevico/inspecao-entrada/inspecao-entrada.component';
+import { OrcamentoComponent } from './company/sevico/orcamento/orcamento.component';
+import { ManutencaoComponent } from './company/sevico/manutencao/manutencao.component';
+import { InspecaoSaidaComponent } from './company/sevico/inspecao-saida/inspecao-saida.component';
+import { EntregaComponent } from './company/sevico/entrega/entrega.component';
+import { AgendamentoComponent } from './company/sevico/agendamento/agendamento.component';
+import { ModalItemComponent } from './company/components/servico/itens-a-fazer/modal/modal-item/modal-item.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -28,7 +41,17 @@ import { ModalDeleteVehicleComponent } from './company/components/modals-vehicle
     ModalDeleteClientComponent,
     VehicleComponent,
     ModalVehicleComponent,
-    ModalDeleteVehicleComponent
+    ModalDeleteVehicleComponent,
+    ServicoListagemComponent,
+    ModalAgendamentoComponent,
+    ServicoDetalhesComponent,
+    InspecaoEntradaComponent,
+    OrcamentoComponent,
+    ManutencaoComponent,
+    InspecaoSaidaComponent,
+    EntregaComponent,
+    AgendamentoComponent,
+    ModalItemComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +60,11 @@ import { ModalDeleteVehicleComponent } from './company/components/modals-vehicle
     ReactiveFormsModule,
     SharedModule, 
     ReactiveFormsModule,
+    NgbModalModule,
+    ComponentsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DropdownModule,
   ],
   exports: [],
 })

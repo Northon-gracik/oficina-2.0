@@ -3,7 +3,7 @@
 @import "../node_modules/bootstrap/scss/variables";
 
 * {
-  font-family: Comic Sans MS, cursive, sans-serif;;
+  font-family: 'Roboto', sans-serif;
 }
 
 $primary-color: $primary; // Usando a cor primária do Bootstrap
@@ -28,3 +28,7 @@ $input-border-color: #ced4da;
 $input-border-radius: 0.25rem;
 $input-padding: 0.375rem 0.75rem;
 $error-color: #dc3545;
+
+ul{
+  padding: 0 !important;
+}

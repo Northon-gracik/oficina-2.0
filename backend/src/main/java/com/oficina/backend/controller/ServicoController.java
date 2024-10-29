@@ -1,18 +1,17 @@
 package com.oficina.backend.controller;
 
 import com.oficina.backend.entitities.*;
-import com.oficina.backend.enums.StatusManutencao;
 import com.oficina.backend.services.ServicoService;
 import com.oficina.backend.util.ErrorUtil;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 
 @RestController
 @RequestMapping("/servicos")
@@ -35,15 +34,18 @@ public class ServicoController {
         try {
             return ResponseEntity.ok(servicoService.identificarVeiculo(id, vehicle.getId()));
         } catch (Exception e) {
-            return ErrorUtil.createErrorResponse("Erro ao identificar veiculo no serviço", e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ErrorUtil.createErrorResponse("Erro ao identificar veiculo no serviço", e,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PostMapping("/{id}/inspecao-entrada")
     public ResponseEntity<?> realizarInspecaoEntrada(@PathVariable Long id, @RequestBody Inspecao inspecao) {
         try {
             return ResponseEntity.ok(servicoService.realizarInspecaoEntrada(id, inspecao));
         } catch (Exception e) {
-            return ErrorUtil.createErrorResponse("Erro ao salvar inspeção no serviço", e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ErrorUtil.createErrorResponse("Erro ao salvar inspeção no serviço", e,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -63,16 +65,19 @@ public class ServicoController {
             System.out.println("TEste");
             return ResponseEntity.ok(servicoService.inserirItensOrcamento(id, item));
         } catch (Exception e) {
-            return ErrorUtil.createErrorResponse("Erro ao adicionar item ao orçamento do serviço", e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ErrorUtil.createErrorResponse("Erro ao adicionar item ao orçamento do serviço", e,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/{id}/orcamento/inserir-peca-item/{itemId}")
-    public ResponseEntity<?> inserirPecaItem(@PathVariable Long id, @PathVariable Long itemId, @RequestBody Peca peca) {
+    public ResponseEntity<?> inserirPecaItemOrcamento(@PathVariable Long id, @PathVariable Long itemId,
+            @RequestBody Peca peca) {
         try {
-            return ResponseEntity.ok(servicoService.inserirPecaItem(id, itemId, peca));
+            return ResponseEntity.ok(servicoService.inserirPecaItemOrcamento(id, itemId, peca));
         } catch (Exception e) {
-            return ErrorUtil.createErrorResponse("Erro ao adicionar peça ao item do orçamento do serviço", e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ErrorUtil.createErrorResponse("Erro ao adicionar peça ao item do orçamento do serviço", e,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -86,6 +91,28 @@ public class ServicoController {
         }
     }
 
+    @PostMapping("/{id}/manutencao/inserir-item")
+    public ResponseEntity<?> inserirItemManutencao(@PathVariable Long id, @RequestBody ItemAFazer item) {
+        try {
+            System.out.println("TEste");
+            return ResponseEntity.ok(servicoService.inserirItensManutencao(id, item));
+        } catch (Exception e) {
+            return ErrorUtil.createErrorResponse("Erro ao adicionar item ao orçamento do serviço", e,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/{id}/manutencao/inserir-peca-item/{itemId}")
+    public ResponseEntity<?> inserirPecaItemManutencao(@PathVariable Long id, @PathVariable Long itemId,
+            @RequestBody Peca peca) {
+        try {
+            return ResponseEntity.ok(servicoService.inserirPecaItemManutencao(id, itemId, peca));
+        } catch (Exception e) {
+            return ErrorUtil.createErrorResponse("Erro ao adicionar peça ao item do orçamento do serviço", e,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("mudar-status-item/{itemId}")
     public ResponseEntity<?> mudarStatusItem(@PathVariable Long itemId, @RequestBody ItemAFazer item) {
         try {
@@ -94,7 +121,7 @@ public class ServicoController {
             return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
     }
-    
+
     @PutMapping("/{id}/finalizar-manutencao")
     public ResponseEntity<?> finalizarManutencao(@PathVariable Long id) {
         try {
@@ -109,6 +136,17 @@ public class ServicoController {
 
         try {
             return ResponseEntity.ok(servicoService.realizarInspecaoSaida(id, inspecao));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    
+
+    @PostMapping("/{id}/pagamento")
+    public ResponseEntity<?> registrarPagamento(@PathVariable Long id, @RequestBody Map<String, BigDecimal> valorPagamento) {
+        try {
+            return ResponseEntity.ok(servicoService.registrarPagamento(id, valorPagamento.get("valorPagamento")));
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
@@ -150,5 +188,15 @@ public class ServicoController {
     public ResponseEntity<List<String>> getListItemInspecao() {
         return ResponseEntity.ok(servicoService.getListItemInspecao());
     }
-    
+
+    @GetMapping("/buscar-item/{itemId}")
+    public ResponseEntity<?> findItemById(@PathVariable Long itemId) {
+        try {
+            return servicoService.findItemById(itemId)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

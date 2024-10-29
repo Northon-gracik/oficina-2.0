@@ -30,4 +30,11 @@ export class VehicleService {
   public deleteVehicle = (id: number): Promise<void> => {
     return this.http.delete<void>(`${baseUrl}/${id}`).toPromise();
   }
+
+  public findBySearch = (search: string, idClient?: number): Promise<IVehicle[] | undefined> =>  this.http.get<IVehicle[]>(`${baseUrl}/search?${idClient ? `idClient=${idClient}&` : ''}searchTerm=${search}`).toPromise();
+  
+  
+  public findByClientId = (clientId: number): Promise<IVehicle[] | undefined> => {
+    return this.http.get<IVehicle[]>(`${baseUrl}/client/${clientId}`).toPromise();
+  }
 }

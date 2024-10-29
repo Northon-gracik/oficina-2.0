@@ -41,9 +41,6 @@ export class EmpresaComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.listCompanies();
-    this.selectedEmpresaId.valueChanges.subscribe((value) =>
-      console.log(typeof value)
-    );
   }
 
   public async onSubmit(event: Event): Promise<void> {

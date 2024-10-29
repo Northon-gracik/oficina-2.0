@@ -6,6 +6,8 @@ import com.oficina.backend.enums.StatusManutencao;
 import com.oficina.backend.enums.TipoManutencao;
 import com.oficina.backend.enums.TipoMecanico;
 
+import java.time.LocalDateTime;
+import java.time.Duration;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,8 +24,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -50,15 +54,25 @@ public class ItemAFazer {
     @Column(name = "tipo_manutencao")
     private TipoManutencao tipoManutencao;
 
-    @Column(name = "valor_total_pecas")
-    private double valorTotalPecas;
+    @Column(name = "valor_total_pecas", precision = 10, scale = 2)
+    private BigDecimal valorTotalPecas;
 
-    @Column(name = "valor_mao_de_obra")
-    private double valorMaoDeObra;
+    @Column(name = "valor_mao_de_obra", precision = 10, scale = 2)
+    private BigDecimal valorMaoDeObra;
+
+    @Column(name = "tempo_estimado")
+    private Duration tempoEstimado;
+
+    @Column(name = "hora_inicio")
+    private Date horaInicio;
+    
+    @Column(name = "hora_fim")
+    private Date horaFim;
+
     
     @OneToMany(mappedBy = "itemAFazer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private java.util.List<Peca> pecas = new ArrayList<>();    
+    private List<Peca> pecas = new ArrayList<>();    
 
     @ManyToOne
     @JoinColumn(name = "orcamento_id")
