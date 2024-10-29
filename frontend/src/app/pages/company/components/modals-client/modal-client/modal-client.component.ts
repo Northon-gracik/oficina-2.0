@@ -8,6 +8,7 @@ import { FormErrorType } from '../../../../../shared/components/custom-input/for
 import { SharedModule } from '../../../../../shared/shared.module';
 import { NgbTooltipModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IClient } from '../../../../../core/models/IClient';
+import { cpfCnpjValidator } from '../../../../../shared/Validators/cpf-cnpj.validator';
 
 @Component({
   selector: 'app-modal-client',
@@ -62,7 +63,7 @@ export class ModalClientComponent implements OnInit {
     validators: [
       Validators.required,
       Validators.pattern(/^\d{11}|\d{14}$/),
-      this.cpfCnpjValidator
+      cpfCnpjValidator
     ],
     updateOn: 'blur'
   });
@@ -191,28 +192,6 @@ export class ModalClientComponent implements OnInit {
       }
     }
     return null;
-  }
-
-  private cpfCnpjValidator(control: FormControl): { [key: string]: boolean } | null {
-    const value = control.value;
-    if (value) {
-      if (value.length === 11) {
-        return this.isValidCPF(value) ? null : { [FormErrorType.InvalidCpfCnpj]: true };
-      } else if (value.length === 14) {
-        return this.isValidCNPJ(value) ? null : { [FormErrorType.InvalidCpfCnpj]: true };
-      }
-    }
-    return { [FormErrorType.InvalidCpfCnpj]: true };
-  }
-
-  private isValidCPF(cpf: string): boolean {
-    // Implementar a lógica de validação de CPF aqui
-    return true; // Placeholder
-  }
-
-  private isValidCNPJ(cnpj: string): boolean {
-    // Implementar a lógica de validação de CNPJ aqui
-    return true; // Placeholder
   }
 
   public ngOnDestroy(): void {

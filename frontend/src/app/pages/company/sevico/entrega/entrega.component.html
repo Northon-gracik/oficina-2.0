@@ -1,0 +1,73 @@
+<div class="container-fluid card shadow-lg py-3 px-4 my-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="">
+
+                    <p *ngIf="!!dataEntrega"><strong>Data da entrega:</strong> {{dataEntrega | date:'dd/MM/yyyy'}}</p>
+                </div>
+                <div class="d-flex align-items-center">
+
+                    <span *ngIf="statusPagamento === statusPagamentoEnum.PAGO_TOTALMENTE"
+                        class="badge rounded-pill bg-success mx-2">PAGO TOTALMENTE</span>
+                    <span *ngIf="statusPagamento === statusPagamentoEnum.PENDENTE"
+                        class="badge rounded-pill bg-secondary mx-2">PENDENTE</span>
+                    <span *ngIf="statusPagamento === statusPagamentoEnum.PAGO_PARCIALMENTE"
+                        class="badge rounded-pill bg-warning mx-2">PAGO PARCIALMENTE</span>
+                    <span class="badge rounded-pill bg-success" *ngIf="isEntregue">ENTREGUE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="" *ngIf="statusPagamento !== statusPagamentoEnum.PAGO_TOTALMENTE">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <app-custom-input [control]="valorPago" label="Valor pago pelo cliente." type="currency"
+                    placeholder="Digite o valor" />
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-end align-items-center" *ngIf="!!valorTotal">
+                <p class="m-0"><strong>Valor a pagar: </strong>{{valorTotal | currency: 'BRL' : 'symbol'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+                <button class="btn btn-success" (click)="resgistrarPagamento()">Resgistrar pagamento</button>
+            </div>
+        </div>
+        <small class="text-danger mb-3">Futuramente será implementado uma condicional para caso esteja pago, não exibir
+            essa parte.</small>
+
+    </div>
+    <div class="row" *ngIf="statusPagamento === statusPagamentoEnum.PAGO_TOTALMENTE">
+        <div class="col-12 col-md-4">
+            <app-custom-input [control]="quilometragem" label="Quilometragem" type="number"
+                placeholder="Digite a quilometragem" />
+        </div>
+        <div class="col-12 col-md-4">
+            <app-custom-input [control]="tecnicoResponsavel" label="Responsável pela entrega."
+                placeholder="Digite o responsável pela entrega."></app-custom-input>
+        </div>
+        <div class="col-12">
+            <app-custom-input [control]="comentariosObservacoes" label="Comentarios e observações."
+                placeholder="Digite os comentarios ou observações da entrega."></app-custom-input>
+            <div class="mb-3">
+                <small class="text-danger mb-3">Futuramente será implementado uma lista de
+                    OBSERVAÇÕES/NOTAS/COMENTARIOS/DESCRIÇÕES</small>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end" *ngIf="!isEntregue">
+        <div class="">
+            <button class="btn btn-outline-primary" (click)="registrarEntrega()">
+                Entregar
+            </button>
+
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex ">
+
+        <button class="btn btn-secondary" (click)="voltar()">Voltar</button>
+    </div>
+
+</div>

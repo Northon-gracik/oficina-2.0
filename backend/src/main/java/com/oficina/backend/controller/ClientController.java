@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/clients")
@@ -88,6 +88,20 @@ public class ClientController {
             return createErrorResponse("Erro ao deletar cliente", e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("numero-identificacao/{numeroIdentificacao}")
+    public ResponseEntity<?> findByNumeroIdentificacao(@PathVariable String numeroIdentificacao) {
+        try {
+            return clientService.findByNumeroIdentificacao(numeroIdentificacao)
+                    .map(client -> ResponseEntity.ok().body(client))
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+        } catch (ResponseStatusException e) {
+            return createErrorResponse(e.getReason(), e, HttpStatus.valueOf(e.getStatusCode().value()));
+        } catch (Exception e) {
+            return createErrorResponse("Erro ao buscar cliente", e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
 }
 
 // curl --request GET --url http://localhost:8080/clients --header 'tenant: emp_01234567891235'

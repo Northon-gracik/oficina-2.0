@@ -1,8 +1,6 @@
 package com.oficina.backend.entitities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.oficina.backend.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

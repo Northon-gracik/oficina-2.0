@@ -14,4 +14,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     boolean existsByNumeroIdentificacao(String numeroIdentificacao);
 
+    java.util.Optional<Client> findByNumeroIdentificacao(String numeroIdentificacao);
 }

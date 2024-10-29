@@ -49,6 +49,11 @@ public class ClientService {
         return null;
     }
 
+    public Optional<Client> findByNumeroIdentificacao(String numeroIdentificacao) {
+        return clientRepository.findByNumeroIdentificacao(numeroIdentificacao);
+    }
+
+
     private void validateClient(Client client, Client existingClient) {
         if (client.getNomeCompleto() == null || client.getNomeCompleto().trim().isEmpty()) {
             throw new IllegalArgumentException("Nome completo é obrigatório");

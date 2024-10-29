@@ -1,0 +1,74 @@
+.dropzone {
+    border: 2px dashed #007bff;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    position: relative;
+  
+    input[type='file'] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+  
+    &:hover {
+      background-color: #e9ecef;
+    }
+  
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+  
+  .file-previews {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    
+    .file-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 120px;
+      text-align: center;
+      
+      img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+  
+      .file-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+  
+        &.pdf-icon {
+          color: red;
+          content: url('/path-to-pdf-icon.svg');
+        }
+  
+        &.other-icon {
+          content: url('/path-to-other-file-icon.svg');
+        }
+      }
+  
+      p {
+        margin: 5px 0 0;
+        font-size: 14px;
+        color: #333;
+        word-break: break-all;
+      }
+    }
+  }
+  

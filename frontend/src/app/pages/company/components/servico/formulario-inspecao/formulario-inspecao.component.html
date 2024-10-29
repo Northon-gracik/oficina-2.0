@@ -1,0 +1,69 @@
+<div class="container-fluid card shadow-lg py-3 px-4 my-4">
+    <div class="">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h5 class="m-0">Veículo:</h5>
+            </div>
+            <div class="col-12 col-md-6 d-flex justify-content-end align-items-center text-info" *ngIf="!!veiculo">
+                {{veiculo.marca}} {{veiculo.modelo}} {{veiculo.ano}} - {{veiculo.placa}}
+            </div>
+            <div class="col-12 col-md-6 d-flex justify-content-end" *ngIf="!veiculo">
+                <button type="button" class="btn btn-outline-primary" (click)="abrirModalVeiculo()">Identificar
+                    veículo</button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="" *ngIf="!!veiculo">
+
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <app-custom-input [control]="getFormControl('responsavel', formInspecao)"
+                    label="Responsável pela Inspeção" placeholder="Digite o responsável pela inspeção" />
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-custom-input [control]="getFormControl('quilometragem', formInspecao)" label="Quilometragem"
+                    type="number" placeholder="Digite a quilometragem" />
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-custom-input [control]="getFormControl('nvlCombustivel', formInspecao)"
+                    label="Nível de Combustível (%)" type="number" placeholder="Digite o nível de combustível" />
+            </div>
+
+            <div class="col-12">
+                <app-custom-input [control]="getFormControl('comentariosObservacoes', formInspecao)"
+                    label="Comentarios e observações."
+                    placeholder="Digite os comentarios ou observações da manutenção."></app-custom-input>
+                <div class="mb-3">
+                    <small class="text-danger mb-3">Futuramente será implementado uma lista de
+                        OBSERVAÇÕES/NOTAS/COMENTARIOS/DESCRIÇÕES</small>
+                </div>
+            </div>
+        </div>
+        <hr class="mb-3 m-0">
+        <div class="row">
+            <div class="col-12">
+
+                <label class="d-block text-left">Checklist</label>
+                <div class="d-flex flex-wrap mt-3">
+                    <div *ngFor="let item of getKeys()" class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
+                        <app-checkbox [control]="getFormControl(item, checklist)"
+                            [label]="camelCaseFormat(item)"></app-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr *ngIf="!!veiculo">
+    <div class="d-flex justify-content-between">
+
+        <button class="btn btn-secondary" (click)="voltar.emit()">Voltar</button>
+
+        <button [disabled]="false" *ngIf="this.formInspecao?.disabled" class="btn btn-outline-primary"
+            (click)="avancar.emit()">Proxima etapa</button>
+        <button [disabled]="!formInspecao?.valid" *ngIf="this.formInspecao?.enabled && !!veiculo" class="btn btn-primary"
+            (click)="onSubmit()">Enviar Inspeção</button>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<div ngbDropdown #myDrop="ngbDropdown" class="d-inline-block" [style.width]="'100%'" autoClose="outside">
+    <label *ngIf="label" class="form-label">{{ label }}</label>
+    <div class="input-group">
+        <input type="text" class="form-control" [formControl]="internalControl" [placeholder]="placeholder"  (focus)="showDropdown()">
+    </div>
+    <div class="dropdown-menu my-1" ngbDropdownMenu [style.width]="'100%'">
+        <div *ngIf="opcoes.length === 0" class="dropdown-item text-center">
+            Nenhum resultado encontrado
+        </div>
+        <div *ngFor="let item of opcoes">
+            <button type="button" class="dropdown-item" (click)="selectOption(item)">{{item.label}}</button>
+        </div>
+    </div>
+</div>
+

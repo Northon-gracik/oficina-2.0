@@ -27,9 +27,10 @@ export class AuthCompanyGuard implements CanActivate {
       }),
       catchError(async (error) => {
         // Se houver algum erro na requisição, redireciona para a página de login
-        this.router.navigate(['/login/empresa']);
+        // this.router.navigate(['/login/empresa']);
         return false;
       })
     );
   }
 }
+

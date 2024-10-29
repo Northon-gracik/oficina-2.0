@@ -1,0 +1,177 @@
+<div class="modal-header d-flex justify-content-between">
+    <h5 class="modal-title">{{!itemId ? 'Adicionar item a fazer' : descricao.value}}</h5>
+    <div class="">
+        <span class="badge rounded-pill mx-4" *ngIf="!!itemId"
+            [class.bg-secondary]="status === statusManutencaoEnum.PENDENTE"
+            [class.bg-warning]="status === statusManutencaoEnum.EM_ANDAMENTO"
+            [class.bg-success]="status === statusManutencaoEnum.CONCLUIDA"
+            [class.bg-danger]="status === statusManutencaoEnum.CANCELADA">
+            {{status}}
+        </span>
+
+        <button type="button" class="btn-close" aria-label="Close" (click)="onClose()"></button>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="container-fluid">
+        <!-- <div class="row mb-3" *ngIf="!!itemId">
+            <div class="d-flex justify-content-end w-fit-content">
+                <select class="form-select border badge pl-3" id="select-status" (change)="mudarStatus($event)"
+                    [formControl]="formStatus" [ngClass]="{'border-warning text-warning': formStatus.value === statusManutencaoEnum.PENDENTE,
+                            'border-secondary text-secondary': formStatus.value === statusManutencaoEnum.EM_ANDAMENTO,
+                            'border-success text-success': formStatus.value === statusManutencaoEnum.CONCLUIDA,
+                            'border-danger text-danger': formStatus.value === statusManutencaoEnum.CANCELADA}">
+                    <option class="text-warning" value="PENDENTE">Pendente</option>
+                    <option class="text-secondary" value="EM_ANDAMENTO">Em Andamento</option>
+                    <option class="text-success" value="CONCLUIDA">Concluida</option>
+                    <option class="text-danger" value="CANCELADA">Cancelada</option>
+                </select>
+            </div>
+        </div> -->
+        <div class="row gx-3 gy-2">
+            <!-- Campo Descrição -->
+            <div class="col-12 col-md-6">
+                <app-custom-input [control]="descricao" label="Descrição"
+                    placeholder="Descrição do item"></app-custom-input>
+            </div>
+
+            <!-- Campo Tipo de Mecânico -->
+            <div class="col-12 col-md-3">
+                <div class="mb-3">
+                    <label for="tipoMecanico" class="form-label">Tipo de Mecânico</label>
+                    <select class="form-select" id="tipoMecanico" [formControl]="tipoMecanico">
+                        <option value="MECANICO">Mecânico</option>
+                        <option value="ELETRICISTA">Eletricista</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Campo Tipo de Manutenção -->
+            <div class="col-12 col-md-3">
+                <div class="mb-3">
+                    <label for="tipoManutencao" class="form-label">Tipo de Manutenção</label>
+                    <select class="form-select" id="tipoManutencao" [formControl]="tipoManutencao">
+                        <option value="CORRETIVA">Corretiva</option>
+                        <option value="PREVENTIVA">Preventiva</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Campo Valor da Mão de Obra -->
+            <div class="col-12 col-md-3">
+                <app-custom-input [control]="valorMaoDeObra" label="Valor da Mão de Obra"
+                    placeholder="Valor da Mão de Obra" type="currency"></app-custom-input>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <label class="mb-2">Tempo estimado do serviço <span class="text-danger">*</span></label>
+                <ngb-timepicker [(ngModel)]="time" [spinners]="false" [readonlyInputs]="isCreated" />
+                <small class="text-danger" *ngIf="!isTimeInvalid()">Tempo estimado deve ser maior que 0.</small>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <div class="">
+                <button class="btn btn-outline-danger" *ngIf="status === statusManutencaoEnum.EM_ANDAMENTO" (click)="cancelarItem()">Cancelar</button>
+            </div>
+            <div class="">
+                <button class="btn btn-outline-success" *ngIf="status === statusManutencaoEnum.EM_ANDAMENTO" (click)="concluirItem()">
+                    Concluir
+                </button>
+                <button class="btn btn-outline-success" *ngIf="status === statusManutencaoEnum.PENDENTE && isCreated" (click)="iniciarItem()">
+                    Iniciar
+                </button>
+                <button class="btn btn-primary" *ngIf="!isCreated" [disabled]="!isValid()" (click)="criarItem()">Criar item</button>
+            </div>
+        </div>
+
+        <hr *ngIf="isCreated">
+
+        <!-- Adicionar Nova Peça -->
+        <div class="my-4" *ngIf="isCreated">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Peças</h5>
+                <p>Valor total das peças: {{ valorTotalPecas | currency : 'BRL' : 'symbol' }}</p>
+            </div>
+            <div class="" *ngIf="!isCollapsed && isPendente">
+                <button type="button" class="btn btn-success" (click)="isCollapsed = !isCollapsed">
+                    Adicionar Peça
+                </button>
+            </div>
+
+            <div class="collapse card p-3" [class.show]="isCollapsed">
+                <div class="row">
+                    <h6>Adicionar Nova Peça</h6>
+                    <div class="col-12 col-md-4">
+                        <app-custom-input [control]="pecaNome" label="Nome da Peça"
+                            placeholder="Nome da Peça"></app-custom-input>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <app-custom-input [control]="pecaQuantidade" label="Quantidade" type="number"
+                            placeholder="Quantidade"></app-custom-input>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <app-custom-input [control]="pecaValorUnitario" label="Valor Unitário" type="currency"
+                            placeholder="Valor Unitário"></app-custom-input>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <app-custom-input [control]="pecaDescricao" label="Descrição"
+                            placeholder="Descrição"></app-custom-input>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <app-custom-input [control]="pecaPartNumber" label="Número da peça"
+                            placeholder="Número da peça"></app-custom-input>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button type="button" class="btn btn-secondary" (click)="isCollapsed = !isCollapsed">
+                            {{ isCollapsed ? 'Fechar' : 'Adicionar Peça' }}
+                        </button>
+                        <button type="button" class="btn btn-success mx-2" (click)="adicionarPeca()">Adicionar
+                            Peça</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row mt-3" *ngIf="!isCollapsed">
+                <div class="col-12">
+
+                </div>
+            </div> -->
+        </div>
+
+        <!-- Lista de Peças -->
+        <div class="row" *ngIf="isCreated">
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Valor Unitário</th>
+                            <th>Número da peça</th>
+                            <th *ngIf="isPendente">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let peca of pecas; let i = index">
+                            <td>{{ peca.nome }}</td>
+                            <td>{{ peca.quantidade }}</td>
+                            <td>{{ peca.valorUnitario | currency: "BRL" }}</td>
+                            <td>{{ peca.partNumber }}</td>
+                            <td *ngIf="isPendente">
+                                <button type="button" class="btn btn-danger btn-sm"
+                                    (click)="removerPeca(i)">Remover</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onClose()">Sair</button>
+    <!-- <button type="button" class="btn btn-primary" (click)="onSubmit()">Enviar</button> -->
+</div>

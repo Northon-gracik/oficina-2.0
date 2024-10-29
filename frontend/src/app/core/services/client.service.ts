@@ -30,4 +30,8 @@ export class ClientService {
   public deleteClient = (id: number): Promise<void> => {
     return this.http.delete<void>(`${baseUrl}/${id}`).toPromise();
   }
+
+  public findByNumeroIdentificacao = (numeroIdentificacao: string): Promise<IClient | undefined> => {
+    return this.http.get<IClient>(`${baseUrl}/numero-identificacao/${numeroIdentificacao}`).toPromise();
+  }
 }

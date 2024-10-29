@@ -1,1 +1,10 @@
-<p>button works!</p>
+<button 
+  [ngClass]="['btn', 'btn-' + type, 'mr-2']"
+  [disabled]="disabled || loading"
+  (click)="onClick()"
+>
+  <ng-container *ngIf="loading; else buttonLabel">
+    <span class="spinner-border spinner-border-sm"></span> Loading...
+  </ng-container>
+  <ng-template #buttonLabel>{{ label }}</ng-template>
+</button>

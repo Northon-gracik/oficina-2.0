@@ -1,5 +1,7 @@
 package com.oficina.backend.security.authentication;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.oficina.backend.entitities.User;
 import com.oficina.backend.entitities.UserRole;
 import com.oficina.backend.repositories.CompanyRepository;
@@ -38,16 +40,32 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Verifica se o endpoint requer autenticação antes de processar a requisição
-        if (checkIfEndpointIsNotPublic(request)) {
-            String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
-            if (token != null) {
-                processToken(token, request);
-            } else {
-                throw new RuntimeException("O token está ausente.");
+        try {
+            // Verifica se o endpoint requer autenticação antes de processar a requisição
+            if (checkIfEndpointIsNotPublic(request)) {
+                String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
+                if (token != null) {
+                    processToken(token, request);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\": \"O token está ausente.\"}");
+                    System.err.println("Erro: O token está ausente.");
+                    return;
+                }
             }
+            filterChain.doFilter(request, response); // Continua o processamento da requisição
+        } catch (JWTVerificationException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Erro ao validar token. " + e.getMessage() + "\"}");
+            System.err.println("Erro: " + e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Erro interno do servidor.\"}");
+            System.err.println("Erro: " + e.getMessage());
         }
-        filterChain.doFilter(request, response); // Continua o processamento da requisição
     }
 
     private void processToken(String token, HttpServletRequest request) {
@@ -86,6 +104,6 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     // Verifica se o endpoint requer autenticação antes de processar a requisição
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        return !Arrays.asList(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).contains(requestURI);
+        return !Arrays.asList(SecurityConfiguration.PUBLIC_ENDPOINTS).contains(requestURI);
     }
 }

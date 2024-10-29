@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Iniciar Frontend",
+      "type": "shell",
+      "command": ". ~/.nvm/nvm.sh && nvm use 18 && cd frontend && ng serve",
+      "group": "none",
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Iniciar Backend",
+      "type": "shell",
+      "command": "./backend/mvnw spring-boot:run -f ./backend/pom.xml",
+      "group": "none",
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": [],
+    },
+    {
+      "label": "Iniciar Todos",
+      "type": "shell",
+      "dependsOn": [
+        "Iniciar Frontend",
+        "Iniciar Backend"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

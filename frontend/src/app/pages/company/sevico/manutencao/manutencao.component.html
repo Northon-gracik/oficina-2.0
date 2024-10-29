@@ -1,0 +1,63 @@
+<div class="container-fluid card shadow-lg py-3 px-4 my-4">
+    <div class="row mt-3">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="">
+                <button class="btn btn-outline-success" (click)="finalizarManutencao()" *ngIf="isIniciada">Finalizar
+                    manutenção</button>
+
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="badge rounded-pill" [class.bg-secondary]="status === statusManutencaoEnum.PENDENTE"
+                    [class.bg-warning]="status === statusManutencaoEnum.EM_ANDAMENTO"
+                    [class.bg-success]="status === statusManutencaoEnum.CONCLUIDA">{{ status }}</span>
+
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="d-flex flex-md-col justify-content-between">
+                <p *ngIf="!!dataInicio"><strong>Data de Início:</strong> {{dataInicio | date:'dd/MM/yyyy'}}</p>
+                <p *ngIf="!!dataConclusao"><strong>Data de Conclusão:</strong> {{dataConclusao | date:'dd/MM/yyyy'}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <app-custom-input [control]="descricaoDetalhada" label="Descrição do serviço."
+                placeholder="Descreva a manutenção a ser realizada."></app-custom-input>
+        </div>
+        <div class="col-12 col-md-4">
+            <app-custom-input [control]="tecnicoResponsavel" label="Responsável pela manutenção."
+                placeholder="Digite o responsável pela manutenção."></app-custom-input>
+        </div>
+        <div class="col-12">
+            <app-custom-input [control]="comentariosObservacoes" label="Comentarios e observações."
+                placeholder="Digite os comentarios ou observações da manutenção."></app-custom-input>
+            <div class="mb-3">
+                <small class="text-danger mb-3">Futuramente será implementado uma lista de
+                    OBSERVAÇÕES/NOTAS/COMENTARIOS/DESCRIÇÕES</small>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="isIniciada">
+        <div class="d-flex justify-content-between">
+            <h5>Tabela de Serviços</h5>
+            <p>Valor total da manutenção: {{ valorTotal | currency : 'BRL' : 'symbol' }} </p>
+        </div>
+        <app-itens-a-fazer [itensAFazer]="itens" [servicoId]="servicoId" [screen]="'MANUTENCAO'"
+            [isPendente]="status === statusManutencaoEnum.EM_ANDAMENTO"
+            (refresh)="refreshServico()"></app-itens-a-fazer>
+    </div>
+
+    <div class="d-flex justify-content-between">
+
+        <button class="btn btn-secondary" (click)="voltar()">Voltar</button>
+
+        <button class="btn btn-primary" *ngIf="!isIniciada" (click)="iniciar()">Iniciar manutenção</button>
+
+
+        <button class="btn btn-outline-primary" *ngIf="isIniciada && isConcluida" (click)="avancar()">Proxima
+            etapa</button>
+    </div>
+</div>

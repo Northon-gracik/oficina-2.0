@@ -21,8 +21,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    
-	// @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody CreateUserDto createUserDto) {
         try {
@@ -33,7 +31,6 @@ public class UserController {
         }
     }
 
-	// @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginUserDto loginUserDto) {
         try {

@@ -1,61 +1,82 @@
 <div class="dev-screen">
-  <h1>Tela de componentes usáveis</h1>
-  <div class="col-12">
-    <h2>Input</h2>
-    <div class="row">
-      <div class="col-6">
-        <app-custom-input
-          [control]="control"
-          label="Exemplo de input"
-          inputId="Exemplo de input"
-          placeholder="Digite algo"
-        ></app-custom-input>
-      </div>
-      <div class="col-6 d-flex align-items-center">
-        Valor do input: {{ control.value }}
-      </div>
+  <h1 class="text-center mb-4">Tela de Componentes Usáveis</h1>
+  <div class="mb-5">
+    <h2 class="mb-3">Select</h2>
+    <app-select [control]="controlSelect" [opcoes]="myOptionsSelect" [internalControl]="internalControl" label="Escolha opção"
+      placeholder="Selecione..."></app-select>
+    <p class="mt-2">Valor do input: {{ controlSelect.value }}</p>
+  </div>
+  
+  <div class="mb-5">
+    <h2 class="mb-3">Input</h2>
+
+    <div class="row g-3">
+      <ng-container *ngFor="let type of inputTypes">
+        <div class="col-12 col-sm-6 col-md-4">
+          <app-custom-input [control]="control" [label]="'Exemplo de input ' + type" placeholder="Digite algo"
+            [type]="type"></app-custom-input>
+          <p class="mt-2">Valor do input: {{ control.value }}</p>
+        </div>
+      </ng-container>
     </div>
   </div>
-  <div class="col-12">
-    <h2>Tosters & Tooltip</h2>
-    <div class="col-12">
-      <div class="row">
-        <div class="buttons d-flex col-12">
-          <button
-            class="btn btn-primary mx-2"
-            (click)="showStandard()"
-            ngbTooltip="Will disappear in 5s"
-          >
-            Standard toast
-          </button>
-          <button
-            class="btn btn-success mx-2"
-            (click)="showSuccess()"
-            ngbTooltip="Will disappear in 10s"
-          >
-            Success toast
-          </button>
-          <button
-            class="btn btn-danger mx-2"
-            (click)="showDanger()"
-            ngbTooltip="Will disappear in 15s"
-          >
-            Danger toast
-          </button>
-        </div>
-      </div>
+
+  <div class="mb-5">
+    <h2 class="mb-3">Toasters & Tooltip</h2>
+    <div class="d-flex justify-content-center flex-wrap">
+      <button *ngFor="let type of ['standard', 'success', 'danger']" class="btn mx-2 mb-2" [ngClass]="{
+          'btn-primary': type === 'standard',
+          'btn-success': type === 'success',
+          'btn-danger': type === 'danger'
+        }" (click)="showToast(type)" ngbTooltip="{{ type }} toast">
+        {{ type }} toast
+      </button>
     </div>
   </div>
-  <div class="col-12">
-    <h2>Loader</h2>
-    <div class="col-12">
-      <div class="row">
-        <div class="buttons d-flex col-12">
-          <button class="btn btn-primary mx-2" (click)="showLoader()">
-            Show loader
-          </button>
-        </div>
-      </div>
+
+  <div class="mb-5">
+    <h2 class="mb-3">Loader</h2>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-primary" (click)="showLoader()">Show Loader</button>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <h2 class="mb-3">Checkbox</h2>
+    <div class="d-flex justify-content-center">
+      <app-checkbox [control]="controlCheckbox" label="Exemplo de checkbox"></app-checkbox>
+    </div>
+    <p class="text-center mt-2">Valor do input: {{ controlCheckbox.value }}</p>
+  </div>
+
+  <div class="mb-5">
+    <h2 class="mb-3">Dropzone</h2>
+    <div class="d-flex justify-content-center col-12">
+      <app-dropzone class="w-100" [control]="files" [multiple]="true" [acceptedTypes]="'.jpg, .png, .jpeg, .pdf'"
+        (fileDropped)="onFilesDropped($event)">
+      </app-dropzone>
+
+
+    </div>
+    <!-- <ul class="list-group mt-2">
+      <li
+        *ngFor="let file of form.controls['files'].value"
+        class="list-group-item d-flex justify-content-between"
+      >
+        {{ file.name }}
+        <span class="badge badge-secondary">{{ file.size }}</span>
+      </li>
+    </ul> -->
+  </div>
+
+  <div class="mb-5">
+    <h2 class="mb-3">Buttons</h2>
+    <div class="d-flex justify-content-center">
+      <app-button [label]="'Submit'" [type]="'primary'" [disabled]="isLoading" [loading]="isLoading"
+        (clicked)="onSubmit()">
+      </app-button>
+      <app-button [label]="'Delete'" [type]="'danger'" [disabled]="isDeleting" (clicked)="onDelete()">
+      </app-button>
     </div>
   </div>
 </div>
