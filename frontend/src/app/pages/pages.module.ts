@@ -31,6 +31,7 @@ import { EntregaComponent } from './company/sevico/entrega/entrega.component';
 import { AgendamentoComponent } from './company/sevico/agendamento/agendamento.component';
 import { ModalItemComponent } from './company/components/servico/itens-a-fazer/modal/modal-item/modal-item.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { DashboardComponent } from './company/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { DropdownModule } from 'primeng/dropdown';
     EntregaComponent,
     AgendamentoComponent,
     ModalItemComponent,
+    DashboardComponent,
   ],
   imports: [
     CommonModule,

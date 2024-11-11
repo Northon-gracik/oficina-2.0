@@ -33,7 +33,8 @@ public class SecurityConfiguration {
         "/companies/**",
         "/clients/**",
         "/vehicles/**",
-        "/servicos/**"
+        "/servicos/**",
+        "/relatorios/**"
     };
 
     // Endpoints que só podem ser acessados por usuários com permissão de cliente
