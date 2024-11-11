@@ -1,0 +1,152 @@
+<h4 class="mb-4">Relatório de Tickets Médios</h4>
+
+<div class="row">
+  <!-- Ticket Médio Geral -->
+  <div class="col-md-6 col-lg-3">
+    <div class="card shadow-sm border-0">
+      <div class="card-body text-center">
+        <h5 class="card-title text-secondary">Ticket Médio</h5>
+        <p class="card-text h4 text-success">
+          {{ dashboardData.custoMedio | currency : 'BRL' : 'symbol-narrow' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Médio por Cliente -->
+  <div class="col-md-6 col-lg-3">
+    <div class="card shadow-sm border-0">
+      <div class="card-body text-center">
+        <h5 class="card-title text-secondary">Ticket Médio por Cliente</h5>
+        <p class="card-text h4 text-success">
+          {{ dashboardData.custoMedioDosCliente | currency : 'BRL' : 'symbol-narrow' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Médio por Marca -->
+  <div class="col-md-6 col-lg-3">
+    <div class="card shadow-sm border-0">
+      <div class="card-body text-center">
+        <h5 class="card-title text-secondary">Ticket Médio por Marca</h5>
+        <p class="card-text h4 text-success">
+          {{ dashboardData.custoMedioDasMarcas | currency : 'BRL' : 'symbol-narrow' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Médio por Veículo -->
+  <div class="col-md-6 col-lg-3">
+    <div class="card shadow-sm border-0">
+      <div class="card-body text-center">
+        <h5 class="card-title text-secondary">Ticket Médio por Veículo</h5>
+        <p class="card-text h4 text-success">
+          {{ dashboardData.custoMedioDosVeiculos | currency : 'BRL' : 'symbol-narrow' }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+
+
+
+
+
+<div class="dashboard-container">
+  <div class="row">
+    <div class="col-6 col-md-2">
+      <div class="chart-container ">
+        <h4>Status dos Serviços</h4>
+        <canvas id="statusServicoChart" height="50"></canvas>
+      </div>
+    </div>
+    <div class="col-6 col-md-2">
+      <div class="chart-container ">
+        <h4>Tipos de Manutenção</h4>
+        <canvas id="itemAFazerTipoChart"></canvas>
+      </div>
+
+    </div>
+    <div class="col-6">
+      <h4>Tarefas Concluidas por Mecânico</h4>
+      <canvas id="tarefasMecanicoChart"></canvas>
+
+    </div>
+  </div>
+
+
+  <!-- <div class="chart-container">
+    <div class="row">
+    </div>
+  </div>
+</div> -->
+
+
+
+<div class="dashboard-tables">
+  <div class="table-container mt-4">
+    <h3>Itens de Maior Custo</h3>
+    <!-- <input pInputText placeholder="Filtrar Itens de Maior Custo" [(ngModel)]="filtroItemCusto"> -->
+    <p-table [value]="itensMaiorCusto" [paginator]="true" [rows]="5"
+      [globalFilterFields]="['descricaoItem', 'valorTotal']" [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="descricaoItem">Descrição <p-sortIcon field="descricaoItem"></p-sortIcon></th>
+          <th pSortableColumn="valorTotal">Valor Total <p-sortIcon field="valorTotal"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.descricaoItem }}</td>
+          <td>{{ item.valorTotal | currency : 'BRL' : 'symbol-narrow' }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft" let-first let-rows let-totalRecords>
+        <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords"></p-paginator>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="table-container mt-4">
+    <h3>Maiores custos por Marca</h3>
+    <!-- <input pInputText placeholder="Filtrar Custo Médio por Cliente" [(ngModel)]="filtroCustoCliente"> -->
+    <p-table [value]="custoMedioMarcaVeiculo" [paginator]="true" [rows]="5"
+      [globalFilterFields]="['Marca', 'precoMedio']" [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="clienteNome">Marca <p-sortIcon field="clienteNome"></p-sortIcon></th>
+          <th pSortableColumn="precoMedio">Preço Total <p-sortIcon field="precoMedio"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-marca>
+        <tr>
+          <td>{{ marca.nomeVeiculo }}</td>
+          <td>{{ marca.precoMedio | currency : 'BRL' : 'symbol-narrow' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="table-container mt-4">
+    <h3>Maiores custos por Modelo</h3>
+    <!-- <input pInputText placeholder="Filtrar Status dos Serviços" [(ngModel)]="filtroCustoVeiculo"> -->
+    <p-table [value]="custoVeiculo" [paginator]="true" [rows]="5" [globalFilterFields]="['status', 'quantidade']"
+      [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="status">Nome do Veículo <p-sortIcon field="nomeVeiculo"></p-sortIcon></th>
+          <th pSortableColumn="quantidade">Preco Total <p-sortIcon field="precoMedio"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-custoVeiculo>
+        <tr>
+          <td>{{ custoVeiculo.nomeVeiculo }}</td>
+          <td>{{ custoVeiculo.precoMedio | currency : 'BRL' : 'symbol-narrow' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

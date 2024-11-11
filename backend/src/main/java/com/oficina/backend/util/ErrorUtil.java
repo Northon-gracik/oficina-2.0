@@ -12,6 +12,7 @@ public class ErrorUtil {
         errorResponse.put("message", message);
         errorResponse.put("error", e.getMessage());
         errorResponse.put("status", status.value());
+        System.out.println(e.getMessage());
         return new ResponseEntity<>(errorResponse, status);
     }
 }

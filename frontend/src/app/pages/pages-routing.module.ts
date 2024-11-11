@@ -24,6 +24,7 @@ import { InspecaoSaidaComponent } from './company/sevico/inspecao-saida/inspecao
 import { EntregaComponent } from './company/sevico/entrega/entrega.component';
 import { ServicoDetalhesResolver } from '../core/resolvers/servico-detalhes.service';
 import { servicoEtapasGuard } from '../core/guards/servico-etapas.guard';
+import { DashboardComponent } from './company/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -34,7 +35,7 @@ const routes: Routes = [
   { path: 'usuario', component: UserDetalhesComponent, canActivate: [AuthGuard] },
   {
     path: 'empresa', component: LayoutCopanyComponent, canActivate: [AuthCompanyGuard], children: [
-      { path: '', component: CompanyDetalhesComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'cliente', component: ClientComponent },
       { path: 'veiculo', component: VehicleComponent },
       { path: 'servico', component: ServicoListagemComponent },
@@ -54,6 +55,7 @@ const routes: Routes = [
           { path: 'entrega', component: EntregaComponent, canActivate: [servicoEtapasGuard] }
         ],
       },
+      {path: 'dashboard', component: DashboardComponent}
     ]
   }
 ];

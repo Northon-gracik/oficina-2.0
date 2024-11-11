@@ -39,7 +39,7 @@ public class JwtTokenService {
 
             return tokenBuilder.sign(ALGORITHM); // Assina o token usando o algoritmo especificado
         } catch (JWTCreationException exception) {
-            throw new JWTCreationException("Erro ao gerar token.", exception);
+            throw new JWTCreationException("Erro ao gerar token!", exception);
         }
     }
 
@@ -59,7 +59,7 @@ public class JwtTokenService {
             DecodedJWT jwt = getDecodedJWT(token);
             return claimResolver.apply(jwt);
         } catch (JWTVerificationException exception) {
-            throw new JWTVerificationException("Token inválido ou expirado.");
+            throw new JWTVerificationException("Token expirado!");
         }
     }
 

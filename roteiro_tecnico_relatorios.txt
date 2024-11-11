@@ -1,0 +1,112 @@
+Aqui está um roteiro técnico para desenvolver o módulo de relatórios no backend do sistema de gerenciamento de oficinas. Esse roteiro vai organizar as tarefas em etapas, desde a modelagem e preparação do banco de dados até a criação dos endpoints para exposição dos relatórios.
+
+---
+
+### **Roteiro Técnico para o Módulo de Relatórios**
+
+#### 1. **Planejamento Inicial**
+
+   - **1.1. Definir Escopo dos Relatórios**:
+      - Confirme com os stakeholders os relatórios prioritários e os filtros necessários para cada um.
+      - Validar requisitos adicionais, como agrupamentos, tipos de visualização (gráficos, tabelas), e periodicidade (diária, semanal, mensal).
+
+   - **1.2. Criar Documentação Técnica**:
+      - Documente cada relatório com seus requisitos de dados e filtros. Especifique quais entidades do banco de dados são necessárias.
+      - Exemplo de Documentação:
+        - Relatório de Agendamentos: Exibe detalhes de serviços agendados e concluídos, incluindo mecânico, status, e descrição do problema.
+
+#### 2. **Modelagem de Banco de Dados**
+
+   - **2.1. Revisar Tabelas Existentes**:
+      - Verifique se os dados necessários estão nas tabelas existentes. Campos como `dataInicio`, `dataConclusao`, `custoEstimado` e `custoFinal` devem estar disponíveis nas entidades `Servico`, `Peca`, `Mecanico`, etc.
+
+   - **2.2. Criar Views no Banco de Dados (opcional)**:
+      - Crie views para relatórios complexos que requerem `JOINs` entre várias tabelas, para agilizar as consultas. Exemplo:
+        - View `vw_servicos_por_mecanico` que une `Servico`, `Mecanico` e outras tabelas relacionadas para agilizar o relatório de desempenho dos mecânicos.
+
+   - **2.3. Testar Índices de Performance**:
+      - Avalie a criação de índices nas colunas frequentemente consultadas (ex.: `status`, `dataInicio`, `mecanico_id`) para melhorar a performance das consultas.
+
+#### 3. **Configuração do Projeto e Estrutura de Código**
+
+   - **3.1. Criar Pacotes e Classes para Relatórios**:
+      - Estruture os pacotes para separar o módulo de relatórios, por exemplo, `br.com.oficina.relatorio`.
+      - Crie uma estrutura de classes para cada relatório: `ServicoRelatorioService`, `MecanicoRelatorioService`, `FinanceiroRelatorioService`, etc.
+
+   - **3.2. Criar Interfaces para Consultas Customizadas**:
+      - Use interfaces para definir consultas personalizadas, por exemplo, `ServicoRelatorioRepository` para consultas específicas de serviços.
+      - Defina métodos de consulta com JPQL ou `@Query` para otimizar relatórios que exigem condições específicas ou agregações.
+
+#### 4. **Implementação dos Serviços de Relatório**
+
+   - **4.1. Implementar Métodos de Consulta**:
+      - Para cada tipo de relatório, implemente métodos que realizem consultas otimizadas, aplicando filtros e agregações conforme necessário.
+      - Exemplo de método no `ServicoRelatorioService`:
+        ```java
+        public List<RelatorioServicoDTO> gerarRelatorioServicos(LocalDate inicio, LocalDate fim, String status) {
+            return servicoRepository.findServicosByDataAndStatus(inicio, fim, status);
+        }
+        ```
+   
+   - **4.2. Criar DTOs de Resumo para os Relatórios**:
+      - Crie DTOs que representam os dados específicos de cada relatório. Isso facilita o transporte dos dados e evita retornar objetos inteiros do banco.
+      - Exemplo:
+        ```java
+        public class RelatorioServicoDTO {
+            private String descricaoProblema;
+            private String status;
+            private LocalDate dataAgendada;
+            private String nomeMecanico;
+            // Getters e Setters
+        }
+        ```
+
+   - **4.3. Implementar Lógica de Filtros e Agrupamentos**:
+      - Utilize serviços auxiliares ou parâmetros de método para aplicar filtros dinâmicos. Exemplo:
+        - Filtro por período de tempo: `findByDataBetween(inicio, fim)`.
+        - Agrupamento por mecânico, cliente ou peça.
+
+#### 5. **Exposição dos Endpoints de Relatório**
+
+   - **5.1. Criar Controladores para Cada Tipo de Relatório**:
+      - Crie controladores como `RelatorioController` que expõem endpoints para os diferentes relatórios, chamando o respectivo serviço de relatório para cada endpoint.
+      - Exemplo de endpoint:
+        ```java
+        @GetMapping("/servicos")
+        public ResponseEntity<List<RelatorioServicoDTO>> getRelatorioServicos(
+                @RequestParam LocalDate inicio,
+                @RequestParam LocalDate fim,
+                @RequestParam(required = false) String status) {
+            return ResponseEntity.ok(servicoRelatorioService.gerarRelatorioServicos(inicio, fim, status));
+        }
+        ```
+
+   - **5.2. Configurar a Serialização e Validação de Dados**:
+      - Garanta que os DTOs estejam corretamente serializados e que os dados sejam validados para evitar erros de entrada incorreta.
+
+#### 6. **Testes e Validação**
+
+   - **6.1. Testes Unitários para Serviços e Repositórios**:
+      - Escreva testes unitários para validar a lógica de consulta nos serviços e repositórios.
+      - Teste com diferentes filtros para garantir que os relatórios retornam dados corretos e filtrados conforme esperado.
+
+   - **6.2. Testes de Integração para Endpoints**:
+      - Teste os endpoints de relatório com dados reais do banco, validando o fluxo de requisição e resposta.
+      - Exemplo: Testar o endpoint `GET /relatorios/servicos` com diferentes combinações de filtros e verificar a precisão e performance.
+
+   - **6.3. Testes de Performance**:
+      - Execute testes de carga e performance nos endpoints, especialmente em consultas que envolvem agregações e filtros complexos.
+
+#### 7. **Documentação e Deploy**
+
+   - **7.1. Documentação dos Endpoints**:
+      - Documente cada endpoint de relatório com detalhes sobre os parâmetros aceitos, resposta esperada e exemplos de uso.
+      - Utilize Swagger para gerar uma documentação automática e visual para consulta.
+
+   - **7.2. Deploy e Monitoramento**:
+      - Após testes e aprovação, faça o deploy do módulo e configure monitoramento para performance dos endpoints.
+      - Analise logs para otimizar queries e ajustar índices no banco de dados, se necessário.
+
+---
+
+Seguindo esse roteiro, você terá um módulo de relatórios robusto e escalável, capaz de oferecer análises completas para o gerenciamento da oficina. Ao longo da implementação, a otimização de consultas e a estruturação dos dados no banco serão essenciais para garantir a performance dos relatórios.

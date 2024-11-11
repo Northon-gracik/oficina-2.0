@@ -48,8 +48,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                     processToken(token, request);
                 } else {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"error\": \"O token está ausente.\"}");
+                    response.setContentType("application/json;charset=UTF-8");
+                    response.getWriter().write("{\"mensagem\": \"Erro ao validar token!\", \"error\": \"O token está ausente!\"}");
                     System.err.println("Erro: O token está ausente.");
                     return;
                 }
@@ -57,12 +57,14 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response); // Continua o processamento da requisição
         } catch (JWTVerificationException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"Erro ao validar token. " + e.getMessage() + "\"}");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write("{\"mensagem\": \"Erro ao validar token!\", \"erro\": \"" + e.getMessage() + "\"}");
             System.err.println("Erro: " + e.getMessage());
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setContentType("application/json");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write("{\"error\": \"Erro interno do servidor.\"}");
             System.err.println("Erro: " + e.getMessage());
         }
