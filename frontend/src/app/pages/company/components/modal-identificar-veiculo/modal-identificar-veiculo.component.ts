@@ -21,7 +21,7 @@ export class ModalIdentificarVeiculoComponent {
   cpfCnpjControl = new FormControl('', {
     validators: [
       Validators.required,
-      Validators.pattern(/^\d{11}|\d{14}$/),
+      // Validators.pattern(/^\d{11}|\d{14}$/),
       cpfCnpjValidator
     ],
     updateOn: 'blur'

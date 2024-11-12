@@ -1,40 +1,69 @@
 <div class="">
     <div class="card shadow-lg py-3 px-4">
-        <div class="d-flex align-items-center justify-content-center mb-4">
-            <h2>Cadastro de Cliente</h2>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h3>Cadastro de Cliente</h3>
+            <div (click)="activeModal.close('Close click')">
+                <i class="pi pi-times-circle cursor-pointer" style="font-size: 1.5rem" ></i>
+            </div>
         </div>
         <div class="row mb-3">
-            <div class="col-12">
-                <app-custom-input [control]="nomeCompleto" label="Nome Completo"
-                    placeholder="Digite o nome completo" type="text"></app-custom-input>
+            <div class="col-6 col-md-4">
+                <app-custom-input [control]="numeroIdentificacao" label="CPF/CNPJ" placeholder="Digite o CPF ou CNPJ"
+                    type="numeroIdentificacao"></app-custom-input>
+            </div>
+            <div class="col-12 col-md-8">
+                <app-custom-input [control]="nomeCompleto" label="Nome Completo" placeholder="Digite o nome completo"
+                    type="text"></app-custom-input>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-4">
-                <app-custom-input [control]="endereco" label="Endereço" 
-                    placeholder="Digite o endereço" type="text"></app-custom-input>
+                <app-custom-input [control]="dataNascimento" label="Data de Nascimento"
+                    placeholder="Digite a data de nascimento" type="date"></app-custom-input>
             </div>
             <div class="col-4">
                 <app-custom-input [control]="numeroTelefone" label="Número de Telefone"
                     placeholder="Digite o número de telefone" type="tel"></app-custom-input>
             </div>
             <div class="col-4">
-                <app-custom-input [control]="email" label="Email" 
-                    placeholder="Digite o email" type="email"></app-custom-input>
+                <app-custom-input [control]="email" label="Email" placeholder="Digite o email"
+                    type="email"></app-custom-input>
+            </div>
+        </div>
+        <hr class="m-0 mb-3">
+        <div class="row mb-3">
+            <div class="col-12 col-md-3">
+                <app-custom-input [control]="cep" label="Cep" placeholder="Digite o cep" type="cep"></app-custom-input>
+            </div>
+
+            <div class="col-12 col-md-2">
+                <app-custom-input [control]="enderecoEstado" label="UF" placeholder="UF"></app-custom-input>
+            </div>
+            <div class="col-12 col-md-7">
+                <app-custom-input [control]="enderecoCidade" label="Cidade"
+                    placeholder="Digite a cidade"></app-custom-input>
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-6">
-                <app-custom-input [control]="dataNascimento" label="Data de Nascimento"
-                    placeholder="Digite a data de nascimento" type="date"></app-custom-input>
+            <div class="col-12 col-md-10">
+                <app-custom-input [control]="enderecoRua" label="Logradouro"
+                    placeholder="Digite o logradouro"></app-custom-input>
             </div>
-            <div class="col-6">
-                <app-custom-input [control]="numeroIdentificacao" label="CPF/CNPJ"
-                    placeholder="Digite o CPF ou CNPJ" type="numeroIdentificacao"></app-custom-input>
+            <div class="col-12 col-md-2">
+                <app-custom-input [control]="enderecoNumero" label="Nº" placeholder="Digite o nº"></app-custom-input>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-12 col-md-12">
+                <app-custom-input [control]="enderecoComplemento" label="Complemento"
+                    placeholder="Digite o complemento"></app-custom-input>
+            </div>
+        </div>
+
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 d-flex justify-content-end">
+                <button (click)="activeModal.close('Close click')" 
+                    class="btn btn-secondary custom-button mx-2">Fechar</button>
                 <button (click)="onSubmit()" [disabled]="!isFormValid()"
                     class="btn btn-primary custom-button">Salvar</button>
             </div>

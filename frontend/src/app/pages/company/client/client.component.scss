@@ -1,0 +1,44 @@
+.container-fluid {
+    .card {
+        border-radius: 8px;
+        padding: 1rem;
+
+        .card-title {
+            color: #007bff; // Azul primário para destaque do nome
+            font-size: 1.2rem;
+        }
+
+        .client-info p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+
+            i {
+                font-size: 1.2rem;
+                color: #007bff;
+            }
+
+            strong {
+                margin-right: 0.5rem;
+                color: #333;
+            }
+        }
+
+        .card-actions {
+            button {
+                display: flex;
+                align-items: center;
+                font-size: 0.9rem;
+
+                i {
+                    margin-right: 0.3rem;
+                }
+            }
+        }
+    }
+}
+
+.dropdown-toggle::after {
+    display: none;
+}

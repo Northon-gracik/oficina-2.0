@@ -13,6 +13,11 @@
     box-shadow: 0 0 15px rgba($error-color, 0.3); // Sombreamento ao redor do input
   }
 
+  &.is-valid {
+    border-color: rgba($success-color, 0.3);
+    // box-shadow: 0 0 15px rgba($success-color, 0.3); // Sombreamento ao redor do input
+  }
+
   &:focus {
     border-color: $primary-color;
     box-shadow: 0 0 10px rgba($primary-color, 0.2);

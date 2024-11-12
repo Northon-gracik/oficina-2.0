@@ -22,17 +22,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let vehicle of vehicles">
+        <tr *ngFor="let vehicle of vehicles; let i = index">
           <td>{{ vehicle.placa }}</td>
           <td>{{ vehicle.marca }}</td>
           <td>{{ vehicle.modelo }}</td>
           <td>{{ vehicle.ano }}</td>
           <td>
-            <button class="btn btn-sm btn-outline-primary me-2" (click)="openEditClientModal(vehicle.id)">
-              <i class="bi bi-pencil"></i>
+            <button class="btn btn-sm mx-2 text-warning" (click)="openEditClientModal(vehicle.id)">
+              <i class="pi pi-pencil"></i>
             </button>
-            <button class="btn btn-sm btn-outline-danger" (click)="openDeleteClientModal(vehicle.id)">
-              <i class="bi bi-trash"></i>
+            <button class="btn btn-sm text-danger"  (click)="openDeleteClientModal(vehicle.id)">
+              <i class="pi pi-trash"></i>
             </button>
           </td>
         </tr>
@@ -40,7 +40,13 @@
     </table>
   </div>
 
-  <div *ngIf="vehicles.length === 0" class="text-center mt-4">
-    <p>Nenhum veículo cadastrado.</p>
-  </div>
+  <ng-container *ngIf="vehicles.length === 0; then notFound">
+  </ng-container>
+
+  <ng-template #notFound>
+    <div class="text-center mt-4">
+      <p>Nenhum veículo cadastrado.</p>
+    </div>
+  </ng-template>
 </div>
+

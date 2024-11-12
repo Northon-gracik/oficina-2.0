@@ -9,8 +9,10 @@ export const FormErrorMessages: { [key in FormErrorType]: (value?: any) => strin
   [FormErrorType.MaxLength]: (value) => `O valor não pode ter mais que ${value.requiredLength} caracteres.`,
   [FormErrorType.Pattern]: () => 'O valor inserido não corresponde ao padrão esperado.',
   [FormErrorType.InvalidAge]: () => 'A idade deve estar entre 18 e 120 anos.',
-  [FormErrorType.InvalidCpfCnpj]: () => 'CPF ou CNPJ inválido.',
-  [FormErrorType.Min]: (value) => `O valor deve ser maior que ${value.min} .`,
-  [FormErrorType.Max]: (value) => `O valor deve ser menor que ${value.max} .`,
+  [FormErrorType.InvalidCpf]: () => 'CPF inválido.',
+  [FormErrorType.InvalidCnpj]: () => 'CNPJ inválido.',
+  [FormErrorType.Min]: (value) => `O valor deve ser maior que ${value.min}.`,
+  [FormErrorType.Max]: (value) => `O valor deve ser menor que ${value.max}.`,
+  [FormErrorType.InvalifFormat]: (value) => `Formato inválido.`,
   // Adicione mais mensagens conforme necessário
 };
