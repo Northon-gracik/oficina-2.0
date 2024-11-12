@@ -27,11 +27,20 @@ export class CustomInputComponent implements OnInit {
     this.isRequired = this.control.hasValidator(Validators.required);    
 
     if (this.type === 'tel') {
-      this.mask = '(00) 00000-0000';
+      this.mask = '(00) 0000-0000||(00) 00000-0000';
+      // this.control.addValidators(Validators.pattern(/^\(?[1-9]{2}\)?[-. ]?[1-9]\d{3}[-. ]?\d{4}$/));
     } else if (this.type === 'numeroIdentificacao') {
       this.mask = '000.000.000-00||00.000.000/0000-00';
+    } else if (this.type === 'cep') {
+      this.mask = '00000-000';
+      // this.control.addValidators(Validators.pattern(/^\d{2}.\d{3}-\d{3}$/));
     }
     this.inputId = generateRandomId();
+
+    setTimeout(() => {
+      (document.activeElement as HTMLElement)?.blur();
+      this.control.markAsUntouched();
+    }, 0);
   }
 
   getErrors(): string[] {
@@ -47,6 +56,10 @@ export class CustomInputComponent implements OnInit {
         }
       }
     }
+
+    console.log(this.control.errors);
+    
+
     return errors;
   }
 

@@ -76,7 +76,11 @@ export class EmpresaComponent implements OnInit {
   public async listCompanies(): Promise<void>{
     try {
       this.empresas = (await this.userHttpService.getUserData()).roles.map(
-        (role: any) => role.company
+        (role: any) => {
+          const companyName = role.company.nome;
+          const roleName = role.role.replace('ROLE_', '').charAt(0).toUpperCase() + role.role.replace('ROLE_', '').slice(1).toLowerCase();
+          
+         return {...role.company, nome: `${companyName} (${roleName})`};}
       );
     } catch (error) {
 

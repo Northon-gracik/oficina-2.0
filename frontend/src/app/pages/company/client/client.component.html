@@ -1,24 +1,38 @@
 <div class="container-fluid py-5">
   <div class="row mb-4">
     <div class="col-12 d-flex justify-content-end">
-      <button class="btn btn-primary" (click)="openClientModal()">Adicionar Cliente</button>
+      <a class="btn btn-primary" (click)="openClientModal()">
+        <i class="pi pi-plus-circle mr-2"></i> Adicionar Cliente
+      </a>
     </div>
   </div>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
-    <div class="col" *ngFor="let client of clients">
-      <div class="card h-100 border shadow-sm">
+  <div class="row g-4">
+    <div class="col-12 col-md-4" *ngFor="let client of clients">
+      <div class="card h-100 border shadow-sm p-0">
         <div class="card-body">
-          <h5 class="card-title">{{ client.nomeCompleto }}</h5>
-          <p class="card-text">
-            <strong>Endereço:</strong> {{ client.endereco }}<br>
-            <strong>Telefone:</strong> {{ client.numeroTelefone | numeroTelefone }}<br>
-            <strong>Email:</strong> {{ client.email }}<br>
-            <strong>Data de Nascimento:</strong> {{ client.dataNascimento | date:'dd/MM/yyyy' }}<br>
-            <strong>CPF/CNPJ:</strong> {{ client.numeroIdentificacao | cpfCnpj }}
-          </p>
-          <div class="card-actions">
-            <button class="btn btn-primary" (click)="openEditClientModal(client.id)">Editar</button>
-            <button class="btn btn-danger mx-2" (click)="openDeleteClientModal(client.id)">Deletar</button>
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title font-weight-bold text-primary">{{ client.nomeCompleto }}</h5>
+            <div class="dropdown" ngbDropdown>
+              <a class=" dropdown-toggle p-2" id="dropdownMenuButton" ngbDropdownToggle placement="start">
+                <i class="pi pi-ellipsis-v"></i>
+              </a>
+              <div class="dropdown-menu shadow-sm" ngbDropdownMenu>
+                <a class="dropdown-item text-warning" ngbDropdownItem (click)="openEditClientModal(client.id)">
+                  <i class="pi pi-pencil mr-2"></i> Editar
+                </a>
+                <a class="dropdown-item text-danger" ngbDropdownItem (click)="openDeleteClientModal(client.id)">
+                  <i class="pi pi-trash mr-2"></i> Excluir
+                </a>
+              </div>
+            </div>
+          </div>
+          <hr class="m-0">
+          <div class="client-info mt-3">
+            <!-- <p><i class="pi pi-home text-primary"></i> <span class="mx-2" [innerHtml]="getEndereco(client.endereco)"></span></p> -->
+            <p><i class="pi pi-phone text-primary"></i> <strong class="mx-2">Telefone:</strong> {{ client.numeroTelefone | numeroTelefone }}</p>
+            <p><i class="pi pi-envelope text-primary"></i> <strong class="mx-2">Email:</strong> {{ client.email }}</p>
+            <p><i class="pi pi-calendar text-primary"></i> <strong class="mx-2">Data de Nascimento:</strong> {{ client.dataNascimento | date:'dd/MM/yyyy' }}</p>
+            <p><i class="pi pi-id-card text-primary"></i> <strong class="mx-2">CPF/CNPJ:</strong> {{ client.numeroIdentificacao | cpfCnpj }}</p>
           </div>
         </div>
       </div>

@@ -6,8 +6,10 @@ export enum FormErrorType {
   MaxLength = 'maxlength',
   Pattern = 'pattern',
   InvalidAge = 'invalidAge',
-  InvalidCpfCnpj = 'invalidCpfCnpj',
+  InvalidCpf = 'invalidCpf',
+  InvalidCnpj = 'invalidCnpj',
   Min = 'min',
   Max = 'max',
+  InvalifFormat = 'invalifFormat',
   // Adicione mais tipos de erro conforme necessário
 }

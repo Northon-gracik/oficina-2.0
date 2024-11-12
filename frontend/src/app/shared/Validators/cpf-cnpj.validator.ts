@@ -4,13 +4,15 @@ import { FormErrorType } from "../components/custom-input/form-error.enum";
 export function cpfCnpjValidator(control: FormControl): { [key: string]: boolean } | null {
     const value = control.value;
     if (value) {
-        if (value.length === 11) {
-            return isValidCPF(value) ? null : { [FormErrorType.InvalidCpfCnpj]: true };
-        } else if (value.length === 14) {
-            return isValidCNPJ(value) ? null : { [FormErrorType.InvalidCpfCnpj]: true };
+        const valueLimpo = value.replace(/\D/g, '');
+        
+        if (valueLimpo.length === 11) {
+            return isValidCPF(valueLimpo) ? null : { [FormErrorType.InvalidCpf]: true };
+        } else if (valueLimpo.length === 14) {
+            return isValidCNPJ(valueLimpo) ? null : { [FormErrorType.InvalidCnpj]: true };
         }
     }
-    return { [FormErrorType.InvalidCpfCnpj]: true };
+    return { [FormErrorType.InvalifFormat]: true };
 }
 
 export function isValidCPF(cpf: string): boolean {

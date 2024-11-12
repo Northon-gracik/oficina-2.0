@@ -1,4 +1,4 @@
-<div [class.mb-4]="!(control.invalid && (control.dirty || control.touched))">
+<div [class.mb-3]="!(control.invalid && (control.dirty || control.touched))">
   <label [for]="inputId" class="form-label custom-label">
     {{ label }}
     <span *ngIf="isRequired" class="text-danger">*</span>
@@ -9,7 +9,7 @@
     [formControl]="control"
     [placeholder]="placeholder"
     class="form-control custom-input"
-    [ngClass]="{'is-invalid': control.invalid && (control.dirty || control.touched)}"
+    [ngClass]="{'is-invalid': control.invalid && (control.dirty || control.touched), 'is-valid': control.valid && (control.dirty || control.touched)}"
     [mask]="type === 'currency' ? 'separator.2' : mask"
     [thousandSeparator]="type === 'currency' ? '.' : '.'"
     [decimalMarker]="type === 'currency' ? ',' : '.'"
@@ -17,7 +17,7 @@
     [required]="isRequired"
     [prefix]="type === 'currency' ? 'R$ ' : ''"
   />
-  <div *ngIf="control.invalid && (control.dirty || control.touched)" class="text-danger custom-error">
+  <div *ngIf="control.invalid && (control.dirty || control.touched)" class="text-danger custom-error word-wrap">
     <div *ngFor="let error of getErrors()">{{ error }}</div>
   </div>
 </div>

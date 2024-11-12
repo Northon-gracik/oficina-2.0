@@ -63,7 +63,7 @@ public class ClientService {
             throw new IllegalArgumentException("Endereço é obrigatório");
         }
 
-        if (client.getNumeroTelefone() == null || !Pattern.matches("\\d{10,11}", client.getNumeroTelefone())) {
+        if (client.getNumeroTelefone() == null || !Pattern.matches("\\d{10,11}", client.getNumeroTelefone().replaceAll("[^0-9]", ""))) {
             throw new IllegalArgumentException("Número de telefone inválido");
         }
         if (clientRepository.existsByNumeroTelefone(client.getNumeroTelefone()) &&
