@@ -108,7 +108,11 @@ export class ModalVehicleComponent implements OnInit {
       if ((value.length === 11 || value.length === 14) && (!this.cpfCnpjControl.invalid)) {
         this.loader.show();
         try {
-          this.clientName = (await this.clientService.findByNumeroIdentificacao(value))?.nomeCompleto || '';
+          const client = await this.clientService.findByNumeroIdentificacao(value);
+          if (client) {
+            this.clientName = (await this.clientService.findByNumeroIdentificacao(value))?.nomeCompleto || '';
+            this.clientId.setValue(client.id.toString(), {emitEvent: false});
+          }
         } finally {
           this.loader.hide();
         }
@@ -220,7 +224,7 @@ export class ModalVehicleComponent implements OnInit {
     return this.marca.valid &&
            this.modelo.valid &&
            this.ano.valid &&
-           this.km.valid &&
+          //  this.km.valid &&
            this.placa.valid &&
            this.numeroChassi.valid &&
            this.cor.valid &&
