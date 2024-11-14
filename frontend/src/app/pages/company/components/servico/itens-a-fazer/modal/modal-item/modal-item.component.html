@@ -79,7 +79,7 @@
                 <button class="btn btn-outline-success" *ngIf="status === statusManutencaoEnum.EM_ANDAMENTO" (click)="concluirItem()">
                     Concluir
                 </button>
-                <button class="btn btn-outline-success" *ngIf="status === statusManutencaoEnum.PENDENTE && isCreated" (click)="iniciarItem()">
+                <button class="btn btn-outline-success" *ngIf="status === statusManutencaoEnum.PENDENTE && isCreated && screen == 'MANUTENCAO'" (click)="iniciarItem()">
                     Iniciar
                 </button>
                 <button class="btn btn-primary" *ngIf="!isCreated" [disabled]="!isValid()" (click)="criarItem()">Criar item</button>

@@ -83,14 +83,14 @@ export class ModalItemComponent implements OnInit {
         await this.servicoService.inserirItemOrcamento(this.servicoId, item);
         const servico = await this.servicoService.getServicoById(this.servicoId);
         
-        const newItemId = servico?.orcamento.itensAFazer.filter(item => this.outhersItemId.includes(item.id))[0].id;
+        const newItemId = servico?.orcamento.itensAFazer.filter(item => !this.outhersItemId.includes(item.id))[0].id;
         if(!newItemId) return;
         this.itemId = newItemId;
       } else {
-        await this.servicoService.inserirItemManutencao(this.servicoId, item);
         const servico = await this.servicoService.getServicoById(this.servicoId);
+        await this.servicoService.inserirItemManutencao(this.servicoId, item);
 
-        const newItemId = servico?.manutencao.itensAFazer.filter(item => this.outhersItemId.includes(item.id))[0].id;
+        const newItemId = servico?.manutencao.itensAFazer.filter(item => !this.outhersItemId.includes(item.id))[0].id;
         if(!newItemId) return;
         this.itemId = newItemId;
       }

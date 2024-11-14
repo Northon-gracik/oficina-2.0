@@ -150,11 +150,11 @@ public class ServicoValidateUtil {
             throw new IllegalArgumentException("A data de criação é obrigatória.");
         }
 
-        if (orcamento.getDataPrevista() != null && orcamento.getDataPrevista().after(new Date())) {
+        if (orcamento.getDataPrevista() != null && orcamento.getDataPrevista().before(new Date())) {
             throw new IllegalArgumentException("A data prevista deve ser no futuro ou presente.");
         }
 
-        if (orcamento.getDataValidade() != null && orcamento.getDataValidade().after(new Date())) {
+        if (orcamento.getDataValidade() != null && orcamento.getDataValidade().before(new Date())) {
             throw new IllegalArgumentException("A data de validade deve ser no futuro.");
         }
 
